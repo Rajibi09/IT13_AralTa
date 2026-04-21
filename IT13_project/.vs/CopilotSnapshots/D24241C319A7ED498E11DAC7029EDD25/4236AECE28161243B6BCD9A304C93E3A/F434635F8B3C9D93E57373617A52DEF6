@@ -1,0 +1,402 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class AdminDashboard : BaseDashboard
+    {
+        public AdminDashboard() : base("Admin") 
+        {
+            InitializeAdminDashboard();
+        }
+
+        private void InitializeAdminDashboard()
+        {
+            // Admin use cases
+            AddMenuButton("👥 Accounts", (s, e) => ShowContent("Accounts"));
+            AddMenuButton("📊 Reports", (s, e) => ShowContent("Reports"));
+            AddMenuButton("📈 Manage Grades & Assessments", (s, e) => ShowContent("Manage Grades & Assessments"));
+            AddMenuButton("📉 Dashboard", (s, e) => ShowContent("Dashboard"));
+
+            // Show default content
+            ShowContent("Welcome to Admin Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+
+            // Create a modern card-based layout
+            Panel mainPanel = new Panel();
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.BackColor = Color.FromArgb(240, 240, 240);
+            mainPanel.AutoScroll = true;
+            mainPanel.Padding = new Padding(20);
+
+            // Title Section
+            Panel titlePanel = new Panel();
+            titlePanel.Height = 80;
+            titlePanel.Dock = DockStyle.Top;
+            titlePanel.BackColor = Color.Transparent;
+
+            Label titleLabel = new Label();
+            titleLabel.Text = "📋 " + contentType;
+            titleLabel.Font = new Font("Microsoft Sans Serif", 24, FontStyle.Bold);
+            titleLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            titleLabel.AutoSize = true;
+            titleLabel.Location = new Point(0, 10);
+            titlePanel.Controls.Add(titleLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = GetDescription(contentType);
+            descLabel.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Regular);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 50);
+            descLabel.MaximumSize = new Size(600, 50);
+            titlePanel.Controls.Add(descLabel);
+
+            mainPanel.Controls.Add(titlePanel);
+
+            // Content Cards
+            Panel cardsPanel = new Panel();
+            cardsPanel.Dock = DockStyle.Top;
+            cardsPanel.BackColor = Color.Transparent;
+            cardsPanel.AutoSize = true;
+            cardsPanel.Padding = new Padding(0, 20, 0, 0);
+
+            switch (contentType)
+            {
+                case "Manage User Accounts":
+                    AddUserAccountsCards(cardsPanel);
+                    break;
+                case "Generate Reports":
+                    AddReportsCards(cardsPanel);
+                    break;
+                case "Manage Grades & Assessments":
+                    AddGradesCards(cardsPanel);
+                    break;
+                case "View Grades":
+                    AddViewGradesCards(cardsPanel);
+                    break;
+                case "Analytics Dashboard":
+                    AddAnalyticsData(cardsPanel);
+                    break;
+                default:
+                    AddWelcomeCards(cardsPanel);
+                    break;
+            }
+
+            mainPanel.Controls.Add(cardsPanel);
+            contentPanel.Controls.Add(mainPanel);
+        }
+
+        private string GetDescription(string contentType)
+        {
+            switch (contentType)
+            {
+                case "Manage User Accounts":
+                    return "Create, edit, and manage all user accounts in the system.";
+                case "Generate Reports":
+                    return "Generate academic, enrollment, and performance reports.";
+                case "Manage Grades & Assessments":
+                    return "Review and manage grading criteria and assessment templates.";
+                case "View Grades":
+                    return "Search and view student grades by class and performance.";
+                case "Analytics Dashboard":
+                    return "Track teacher performance and student activity with encrypted data.";
+                default:
+                    return "Welcome to your Admin Dashboard. Select an option to get started.";
+            }
+        }
+
+        private void AddUserAccountsCards(Panel panel)
+        {
+            string[] items = {
+                "➕ Create Account",
+                "✏️ Edit User Info",
+                "🔄 Activate/Deactivate",
+                "👨‍💼 Manage Admin",
+                "👥 View Users"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddReportsCards(Panel panel)
+        {
+            string[] items = {
+                "📄 Academic Report",
+                "📊 Enrollment Report",
+                "📈 Performance Report",
+                "💾 Export to Excel",
+                "⏱️ Schedule Report"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddGradesCards(Panel panel)
+        {
+            string[] items = {
+                "📋 Assessment Criteria",
+                "✔️ Validate Grades",
+                "🔧 Grading Scale",
+                "📝 Grade Templates",
+                "📊 Grade Statistics"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddViewGradesCards(Panel panel)
+        {
+            string[] items = {
+                "🔍 Search Grades",
+                "📚 Grade by Class",
+                "📈 Grade Trends",
+                "📄 Grade Report",
+                "⚖️ Compare Performance"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddAnalyticsData(Panel panel)
+        {
+            // Performance Summary Stats
+            Panel statsPanel = new Panel();
+            statsPanel.Location = new Point(0, 0);
+            statsPanel.Size = new Size(920, 140);
+            statsPanel.BackColor = Color.Transparent;
+
+            Panel stat1 = CreateStatCard("Avg Teacher Performance", "82.5%", Color.FromArgb(76, 175, 80));
+            stat1.Location = new Point(0, 0);
+            statsPanel.Controls.Add(stat1);
+
+            Panel stat2 = CreateStatCard("Avg Student Performance", "78.3%", Color.FromArgb(33, 150, 243));
+            stat2.Location = new Point(220, 0);
+            statsPanel.Controls.Add(stat2);
+
+            Panel stat3 = CreateStatCard("Avg Attendance", "91.2%", Color.FromArgb(255, 152, 0));
+            stat3.Location = new Point(440, 0);
+            statsPanel.Controls.Add(stat3);
+
+            Panel stat4 = CreateStatCard("Total Activities", "2,547", Color.FromArgb(244, 67, 54));
+            stat4.Location = new Point(660, 0);
+            statsPanel.Controls.Add(stat4);
+
+            panel.Controls.Add(statsPanel);
+
+            // Teacher Performance Analytics
+            Panel teacherSection = new Panel();
+            teacherSection.Location = new Point(0, 160);
+            teacherSection.Size = new Size(920, 320);
+            teacherSection.BackColor = Color.White;
+            teacherSection.BorderStyle = BorderStyle.FixedSingle;
+            teacherSection.Padding = new Padding(15);
+
+            Label teacherTitle = new Label();
+            teacherTitle.Text = "👨‍🏫 Teacher Performance Analytics (Encrypted IDs)";
+            teacherTitle.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            teacherTitle.ForeColor = Color.FromArgb(33, 33, 33);
+            teacherTitle.AutoSize = true;
+            teacherTitle.Location = new Point(15, 10);
+            teacherSection.Controls.Add(teacherTitle);
+
+            DataGridView teacherDgv = new DataGridView();
+            teacherDgv.Width = 880;
+            teacherDgv.Height = 250;
+            teacherDgv.Location = new Point(0, 45);
+            teacherDgv.BackgroundColor = Color.White;
+            teacherDgv.BorderStyle = BorderStyle.None;
+            teacherDgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
+            teacherDgv.ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Bold);
+            teacherDgv.AllowUserToAddRows = false;
+            teacherDgv.ReadOnly = true;
+
+            teacherDgv.Columns.Add("TeacherID", "Teacher ID (Encrypted)");
+            teacherDgv.Columns.Add("Rating", "Avg Rating");
+            teacherDgv.Columns.Add("Classes", "Classes Taught");
+            teacherDgv.Columns.Add("AvgGrade", "Avg Grade");
+            teacherDgv.Columns.Add("Attendance", "Attendance");
+
+            teacherDgv.Rows.Add("TCH-E7A3F2B1", "4.5/5", "3", "82.5%", "96.2%");
+            teacherDgv.Rows.Add("TCH-C2D8K9Q5", "4.2/5", "2", "79.8%", "94.5%");
+            teacherDgv.Rows.Add("TCH-B6M1P4V8", "4.7/5", "4", "85.3%", "98.1%");
+            teacherDgv.Rows.Add("TCH-F9R3L7X2", "4.1/5", "3", "77.2%", "92.8%");
+            teacherDgv.Rows.Add("TCH-A4W5S8N6", "4.4/5", "2", "81.6%", "95.7%");
+
+            teacherSection.Controls.Add(teacherDgv);
+            panel.Controls.Add(teacherSection);
+
+            // Student Activity Tracking (Limited)
+            Panel studentSection = new Panel();
+            studentSection.Location = new Point(0, 500);
+            studentSection.Size = new Size(920, 320);
+            studentSection.BackColor = Color.White;
+            studentSection.BorderStyle = BorderStyle.FixedSingle;
+            studentSection.Padding = new Padding(15);
+
+            Label studentTitle = new Label();
+            studentTitle.Text = "📊 Student Activity Tracking (Limited - Encrypted Names & Location Movements)";
+            studentTitle.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            studentTitle.ForeColor = Color.FromArgb(33, 33, 33);
+            studentTitle.AutoSize = true;
+            studentTitle.Location = new Point(15, 10);
+            studentSection.Controls.Add(studentTitle);
+
+            DataGridView studentDgv = new DataGridView();
+            studentDgv.Width = 880;
+            studentDgv.Height = 250;
+            studentDgv.Location = new Point(0, 45);
+            studentDgv.BackgroundColor = Color.White;
+            studentDgv.BorderStyle = BorderStyle.None;
+            studentDgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
+            studentDgv.ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Bold);
+            studentDgv.AllowUserToAddRows = false;
+            studentDgv.ReadOnly = true;
+
+            studentDgv.Columns.Add("StudentID", "Student ID (Encrypted)");
+            studentDgv.Columns.Add("Class", "Class");
+            studentDgv.Columns.Add("AvgGrade", "Avg Grade");
+            studentDgv.Columns.Add("Attendance", "Attendance %");
+            studentDgv.Columns.Add("Movements", "Location Movements Tracked");
+
+            studentDgv.Rows.Add("STU-H2K9F4L1", "A1", "87.5%", "93.3%", "12 visits (Library, Lab, Gym)");
+            studentDgv.Rows.Add("STU-M6P8X3Y9", "A1", "92.1%", "96.8%", "8 visits (Library, Cafeteria)");
+            studentDgv.Rows.Add("STU-Q5T7R2V6", "A2", "78.3%", "89.2%", "25 visits (Cafeteria, Hall, Outside)");
+            studentDgv.Rows.Add("STU-W4D9E1S3", "A2", "85.6%", "91.5%", "15 visits (Library, Lab, Gym)");
+            studentDgv.Rows.Add("STU-J8C2U5G7", "B1", "81.2%", "88.9%", "19 visits (Cafeteria, Library, Hall)");
+
+            studentSection.Controls.Add(studentDgv);
+            panel.Controls.Add(studentSection);
+
+            panel.Height = 850;
+        }
+
+        private void AddWelcomeCards(Panel panel)
+        {
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "Welcome to Admin Dashboard";
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            welcomeLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Location = new Point(0, 0);
+            panel.Controls.Add(welcomeLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = "You have access to: User Account Management, Report Generation, Grades & Assessments, View Grades, and Analytics Dashboard.";
+            descLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 40);
+            descLabel.MaximumSize = new Size(800, 100);
+            panel.Controls.Add(descLabel);
+
+            panel.Height = 150;
+        }
+
+        private Panel CreateCard(string title, int width, int height)
+        {
+            Panel card = new Panel();
+            card.Width = width;
+            card.Height = height;
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.None;
+            card.Padding = new Padding(15);
+            card.Cursor = Cursors.Hand;
+
+            // Add border effect
+            card.Paint += (s, e) =>
+            {
+                e.Graphics.DrawRectangle(new Pen(Color.FromArgb(220, 220, 220), 1), 0, 0, card.Width - 1, card.Height - 1);
+            };
+
+            Label label = new Label();
+            label.Text = title;
+            label.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Bold);
+            label.ForeColor = Color.FromArgb(33, 33, 33);
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            label.Dock = DockStyle.Fill;
+            label.AutoSize = false;
+            card.Controls.Add(label);
+
+            // Hover effects
+            card.MouseEnter += (s, e) =>
+            {
+                card.BackColor = Color.FromArgb(255, 152, 0);
+                label.ForeColor = Color.White;
+            };
+
+            card.MouseLeave += (s, e) =>
+            {
+                card.BackColor = Color.White;
+                label.ForeColor = Color.FromArgb(33, 33, 33);
+            };
+
+            return card;
+        }
+
+        private Panel CreateStatCard(string label, string value, Color color)
+        {
+            Panel card = new Panel();
+            card.Width = 200;
+            card.Height = 120;
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.FixedSingle;
+            card.Padding = new Padding(15);
+
+            Label valueLabel = new Label();
+            valueLabel.Text = value;
+            valueLabel.Font = new Font("Microsoft Sans Serif", 18, FontStyle.Bold);
+            valueLabel.ForeColor = color;
+            valueLabel.AutoSize = true;
+            valueLabel.Location = new Point(15, 10);
+            card.Controls.Add(valueLabel);
+
+            Label labelText = new Label();
+            labelText.Text = label;
+            labelText.Font = new Font("Microsoft Sans Serif", 9);
+            labelText.ForeColor = Color.FromArgb(100, 100, 100);
+            labelText.AutoSize = true;
+            labelText.Location = new Point(15, 70);
+            card.Controls.Add(labelText);
+
+            return card;
+        }
+    }
+}

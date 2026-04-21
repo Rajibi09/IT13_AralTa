@@ -1,0 +1,256 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class AdminDashboard : BaseDashboard
+    {
+        public AdminDashboard() : base("Admin")
+        {
+            InitializeAdminDashboard();
+        }
+
+        private void InitializeAdminDashboard()
+        {
+            // Admin use cases
+            AddMenuButton("👥 Manage User Accounts", (s, e) => ShowContent("Manage User Accounts"));
+            AddMenuButton("📊 Generate Reports", (s, e) => ShowContent("Generate Reports"));
+            AddMenuButton("📈 Manage Grades & Assessments", (s, e) => ShowContent("Manage Grades & Assessments"));
+            AddMenuButton("⭐ View Grades", (s, e) => ShowContent("View Grades"));
+
+            // Show default content
+            ShowContent("Welcome to Admin Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+
+            // Create a modern card-based layout
+            Panel mainPanel = new Panel();
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.BackColor = Color.FromArgb(240, 240, 240);
+            mainPanel.AutoScroll = true;
+            mainPanel.Padding = new Padding(20);
+
+            // Title Section
+            Panel titlePanel = new Panel();
+            titlePanel.Height = 80;
+            titlePanel.Dock = DockStyle.Top;
+            titlePanel.BackColor = Color.Transparent;
+
+            Label titleLabel = new Label();
+            titleLabel.Text = "📋 " + contentType;
+            titleLabel.Font = new Font("Microsoft Sans Serif", 24, FontStyle.Bold);
+            titleLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            titleLabel.AutoSize = true;
+            titleLabel.Location = new Point(0, 10);
+            titlePanel.Controls.Add(titleLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = GetDescription(contentType);
+            descLabel.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Regular);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 50);
+            descLabel.MaximumSize = new Size(600, 50);
+            titlePanel.Controls.Add(descLabel);
+
+            mainPanel.Controls.Add(titlePanel);
+
+            // Content Cards
+            Panel cardsPanel = new Panel();
+            cardsPanel.Dock = DockStyle.Top;
+            cardsPanel.BackColor = Color.Transparent;
+            cardsPanel.AutoSize = true;
+            cardsPanel.Padding = new Padding(0, 20, 0, 0);
+
+            switch (contentType)
+            {
+                case "Manage User Accounts":
+                    AddUserAccountsCards(cardsPanel);
+                    break;
+                case "Generate Reports":
+                    AddReportsCards(cardsPanel);
+                    break;
+                case "Manage Grades & Assessments":
+                    AddGradesCards(cardsPanel);
+                    break;
+                case "View Grades":
+                    AddViewGradesCards(cardsPanel);
+                    break;
+                default:
+                    AddWelcomeCards(cardsPanel);
+                    break;
+            }
+
+            mainPanel.Controls.Add(cardsPanel);
+            contentPanel.Controls.Add(mainPanel);
+        }
+
+        private string GetDescription(string contentType)
+        {
+            switch (contentType)
+            {
+                case "Manage User Accounts":
+                    return "Create, edit, and manage all user accounts in the system.";
+                case "Generate Reports":
+                    return "Generate academic, enrollment, and performance reports.";
+                case "Manage Grades & Assessments":
+                    return "Review and manage grading criteria and assessment templates.";
+                case "View Grades":
+                    return "Search and view student grades by class and performance.";
+                default:
+                    return "Welcome to your Admin Dashboard. Select an option to get started.";
+            }
+        }
+
+        private void AddUserAccountsCards(Panel panel)
+        {
+            string[] items = {
+                "➕ Create Account",
+                "✏️ Edit User Info",
+                "🔄 Activate/Deactivate",
+                "👨‍💼 Manage Admin",
+                "👥 View Users"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddReportsCards(Panel panel)
+        {
+            string[] items = {
+                "📄 Academic Report",
+                "📊 Enrollment Report",
+                "📈 Performance Report",
+                "💾 Export to Excel",
+                "⏱️ Schedule Report"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddGradesCards(Panel panel)
+        {
+            string[] items = {
+                "📋 Assessment Criteria",
+                "✔️ Validate Grades",
+                "🔧 Grading Scale",
+                "📝 Grade Templates",
+                "📊 Grade Statistics"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddViewGradesCards(Panel panel)
+        {
+            string[] items = {
+                "🔍 Search Grades",
+                "📚 Grade by Class",
+                "📈 Grade Trends",
+                "📄 Grade Report",
+                "⚖️ Compare Performance"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddWelcomeCards(Panel panel)
+        {
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "Welcome to Admin Dashboard";
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            welcomeLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Location = new Point(0, 0);
+            panel.Controls.Add(welcomeLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = "You have access to: User Account Management, Report Generation, Grades & Assessments, and View Grades.";
+            descLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 40);
+            descLabel.MaximumSize = new Size(800, 100);
+            panel.Controls.Add(descLabel);
+
+            panel.Height = 150;
+        }
+
+        private Panel CreateCard(string title, int width, int height)
+        {
+            Panel card = new Panel();
+            card.Width = width;
+            card.Height = height;
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.None;
+            card.Padding = new Padding(15);
+            card.Cursor = Cursors.Hand;
+
+            // Add border effect
+            card.Paint += (s, e) =>
+            {
+                e.Graphics.DrawRectangle(new Pen(Color.FromArgb(220, 220, 220), 1), 0, 0, card.Width - 1, card.Height - 1);
+            };
+
+            Label label = new Label();
+            label.Text = title;
+            label.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Bold);
+            label.ForeColor = Color.FromArgb(33, 33, 33);
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            label.Dock = DockStyle.Fill;
+            label.AutoSize = false;
+            card.Controls.Add(label);
+
+            // Hover effects
+            card.MouseEnter += (s, e) =>
+            {
+                card.BackColor = Color.FromArgb(255, 152, 0);
+                label.ForeColor = Color.White;
+            };
+
+            card.MouseLeave += (s, e) =>
+            {
+                card.BackColor = Color.White;
+                label.ForeColor = Color.FromArgb(33, 33, 33);
+            };
+
+            return card;
+        }
+    }
+}

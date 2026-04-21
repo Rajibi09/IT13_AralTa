@@ -1,0 +1,235 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class AdminDashboard : BaseDashboard
+    {
+        public AdminDashboard() : base("Admin")
+        {
+            InitializeAdminDashboard();
+        }
+
+        private void InitializeAdminDashboard()
+        {
+            // Admin use cases
+            AddMenuButton("Manage User Accounts", (s, e) => ShowContent("Manage User Accounts"));
+            AddMenuButton("Generate Reports", (s, e) => ShowContent("Generate Reports"));
+            AddMenuButton("Manage Grades & Assessments", (s, e) => ShowContent("Manage Grades & Assessments"));
+            AddMenuButton("View Grades", (s, e) => ShowContent("View Grades"));
+
+            // Show default content
+            ShowContent("Welcome to Admin Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+
+            Label titleLabel = new Label();
+            titleLabel.Text = contentType;
+            titleLabel.Font = new Font("Microsoft Sans Serif", 18, FontStyle.Bold);
+            titleLabel.Dock = DockStyle.Top;
+            titleLabel.Height = 60;
+            titleLabel.Padding = new Padding(20);
+            titleLabel.BackColor = Color.FromArgb(255, 152, 0);
+            titleLabel.ForeColor = Color.White;
+            contentPanel.Controls.Add(titleLabel);
+
+            Panel contentArea = new Panel();
+            contentArea.Dock = DockStyle.Fill;
+            contentArea.Padding = new Padding(20);
+
+            switch (contentType)
+            {
+                case "Manage User Accounts":
+                    AddUserAccountsContent(contentArea);
+                    break;
+                case "Generate Reports":
+                    AddReportsContent(contentArea);
+                    break;
+                case "Manage Grades & Assessments":
+                    AddGradesContent(contentArea);
+                    break;
+                case "View Grades":
+                    AddViewGradesContent(contentArea);
+                    break;
+                default:
+                    AddWelcomeContent(contentArea);
+                    break;
+            }
+
+            contentPanel.Controls.Add(contentArea);
+        }
+
+        private void AddUserAccountsContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "User Account Management";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("Create User Account"),
+                CreateButton("Edit User Information"),
+                CreateButton("Deactivate/Activate Users"),
+                CreateButton("Manage Admin Accounts"),
+                CreateButton("View Active Users")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddReportsContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "Report Generation";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("Generate Academic Report"),
+                CreateButton("Generate Enrollment Report"),
+                CreateButton("Generate Performance Report"),
+                CreateButton("Export Reports to Excel"),
+                CreateButton("Schedule Report Delivery")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddGradesContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "Manage Grades and Assessments";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("Review Assessment Criteria"),
+                CreateButton("Validate Grade Entries"),
+                CreateButton("Adjust Grading Scale"),
+                CreateButton("Manage Assessment Templates"),
+                CreateButton("View Grade Statistics")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddViewGradesContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "View Grades";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("Search Student Grades"),
+                CreateButton("View Grade by Class"),
+                CreateButton("View Grade Trends"),
+                CreateButton("Generate Grade Report"),
+                CreateButton("Compare Grade Performance")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddWelcomeContent(Panel panel)
+        {
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "Welcome to Admin Dashboard";
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 14, FontStyle.Bold);
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Padding = new Padding(0, 20, 0, 20);
+            panel.Controls.Add(welcomeLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = "You can manage user accounts, generate reports, manage grades and assessments, and view grades.";
+            descLabel.Font = new Font("Microsoft Sans Serif", 11);
+            descLabel.AutoSize = true;
+            descLabel.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(descLabel);
+        }
+
+        private Button CreateButton(string text)
+        {
+            Button btn = new Button();
+            btn.Text = text;
+            btn.Height = 40;
+            btn.BackColor = Color.FromArgb(255, 152, 0);
+            btn.ForeColor = Color.White;
+            btn.Font = new Font("Microsoft Sans Serif", 10);
+            btn.Cursor = Cursors.Hand;
+            return btn;
+        }
+
+        private void InitializeComponent()
+        {
+            this.leftPanel.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // leftPanel
+            // 
+            this.leftPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.leftPanel_Paint);
+            // 
+            // contentPanel
+            // 
+            this.contentPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.contentPanel_Paint);
+            // 
+            // AdminDashboard
+            // 
+            this.ClientSize = new System.Drawing.Size(1343, 569);
+            this.Name = "AdminDashboard";
+            this.leftPanel.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        private void leftPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void contentPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+    }
+}

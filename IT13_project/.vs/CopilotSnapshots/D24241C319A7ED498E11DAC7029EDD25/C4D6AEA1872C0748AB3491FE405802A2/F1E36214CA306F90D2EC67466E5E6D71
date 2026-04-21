@@ -1,0 +1,574 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class StudentDashboard : BaseDashboard
+    {
+        public StudentDashboard() : base("Student")
+        {
+            InitializeStudentDashboard();
+        }
+
+        private void InitializeStudentDashboard()
+        {
+            // Student use cases - Added in REVERSE order for DockStyle.Top stacking
+            AddMenuButton("🔔 Notifications", (s, e) => ShowContent("Notifications"));
+            AddMenuButton("📚 Subject", (s, e) => ShowContent("Subject"));
+            AddMenuButton("⭐ Grades", (s, e) => ShowContent("Grades"));
+            AddMenuButton("📅 Class Schedule", (s, e) => ShowContent("Class Schedule"));
+            AddMenuButton("💬 Messages", (s, e) => ShowContent("Messages"));
+            AddMenuButton("📊 Attendance Record", (s, e) => ShowContent(" Attendance Record"));
+            AddMenuButton("📈 Dashboard", (s, e) => ShowContent("Dashboard"));
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+
+            // Create a modern card-based layout
+            Panel mainPanel = new Panel();
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.BackColor = Color.FromArgb(240, 240, 240);
+            mainPanel.AutoScroll = true;
+            mainPanel.Padding = new Padding(20);
+
+            // Title Section
+            Panel titlePanel = new Panel();
+            titlePanel.Height = 80;
+            titlePanel.Dock = DockStyle.Top;
+            titlePanel.BackColor = Color.Transparent;
+
+            Label titleLabel = new Label();
+            titleLabel.Text = "📋 " + contentType;
+            titleLabel.Font = new Font("Microsoft Sans Serif", 24, FontStyle.Bold);
+            titleLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            titleLabel.AutoSize = true;
+            titleLabel.Location = new Point(0, 10);
+            titlePanel.Controls.Add(titleLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = GetDescription(contentType);
+            descLabel.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Regular);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 50);
+            descLabel.MaximumSize = new Size(600, 50);
+            titlePanel.Controls.Add(descLabel);
+
+            mainPanel.Controls.Add(titlePanel);
+
+            // Content based on selection
+            Panel contentArea = new Panel();
+            contentArea.Dock = DockStyle.Top;
+            contentArea.BackColor = Color.Transparent;
+            contentArea.AutoSize = true;
+            contentArea.Padding = new Padding(0, 20, 0, 20);
+
+            switch (contentType)
+            {
+                case "Dashboard":
+                    AddStudentAnalyticsData(contentArea);
+                    break;
+                case "Notifications":
+                    AddNotificationsData(contentArea);
+                    break;
+                case "View Attendance Record":
+                    AddViewAttendanceData(contentArea);
+                    break;
+                case "Messages":
+                    AddMessagingData(contentArea);
+                    break;
+                case "Grades":
+                    AddViewGradesData(contentArea);
+                    break;
+                case "Class Schedule":
+                    AddViewScheduleData(contentArea);
+                    break;
+                default:
+                    AddWelcomeContent(contentArea);
+                    break;
+            }
+
+            mainPanel.Controls.Add(contentArea);
+            contentPanel.Controls.Add(mainPanel);
+        }
+
+        private string GetDescription(string contentType)
+        {
+            switch (contentType)
+            {
+                case "Dashboard":
+                    return "View your academic performance analytics and overall statistics.";
+                case "Notifications":
+                    return "View important school notifications.";
+                case "View Attendance Record":
+                    return "Check your attendance records and history.";
+                case "Messages":
+                    return "Communicate with teachers and classmates.";
+                case "Grades":
+                    return "View your academic grades and transcripts.";
+                case "Class Schedule":
+                    return "View your class schedule and assignments.";
+                default:
+                    return "Welcome to your Student Dashboard.";
+            }
+        }
+
+        private void AddViewAttendanceData(Panel panel)
+        {
+            // Header Section with Title and Description
+            Panel headerPanel = new Panel();
+            headerPanel.Location = new Point(0, 0);
+            headerPanel.Size = new Size(900, 80);
+            headerPanel.BackColor = Color.FromArgb(33, 150, 243);
+            headerPanel.Padding = new Padding(15);
+
+
+            Label headerDesc = new Label();
+            headerDesc.Text = "Check your attendance records and history.";
+            headerDesc.Font = new Font("Microsoft Sans Serif", 10);
+            headerDesc.ForeColor = Color.FromArgb(220, 240, 255);
+            headerDesc.AutoSize = true;
+            headerDesc.Location = new Point(15, 40);
+            headerPanel.Controls.Add(headerDesc);
+
+            panel.Controls.Add(headerPanel);
+
+            // Create a summary card
+            Panel summaryCard = CreateSummaryCard("📊 Attendance Summary", Color.FromArgb(33, 150, 243));
+            summaryCard.Location = new Point(0, 90);
+
+            Label summaryText = new Label();
+            summaryText.Text = "Present: 42/45 days | Absent: 2 | Late: 1 | Attendance Rate: 93.3%";
+            summaryText.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            summaryText.ForeColor = Color.FromArgb(33, 150, 243);
+            summaryText.AutoSize = true;
+            summaryText.Location = new Point(15, 15);
+            summaryCard.Controls.Add(summaryText);
+
+            panel.Controls.Add(summaryCard);
+
+            // Attendance details table
+            DataGridView dgv = new DataGridView();
+            dgv.Width = 900;
+            dgv.Height = 250;
+            dgv.Location = new Point(0, 170);
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.FixedSingle;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(33, 150, 243);
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Bold);
+            dgv.AllowUserToAddRows = false;
+            dgv.ReadOnly = true;
+
+            dgv.Columns.Add("Date", "Date");
+            dgv.Columns.Add("Status", "Status");
+            dgv.Columns.Add("Time In", "Time In");
+            dgv.Columns.Add("Time Out", "Time Out");
+
+            dgv.Rows.Add("2024-01-15", "Present", "08:00 AM", "03:00 PM");
+            dgv.Rows.Add("2024-01-16", "Present", "08:05 AM", "03:00 PM");
+            dgv.Rows.Add("2024-01-17", "Late", "08:20 AM", "03:00 PM");
+            dgv.Rows.Add("2024-01-18", "Present", "08:00 AM", "03:00 PM");
+            dgv.Rows.Add("2024-01-19", "Absent", "-", "-");
+
+            panel.Controls.Add(dgv);
+            panel.Height = 450;
+        }
+
+        private void AddViewScheduleData(Panel panel)
+        {
+            // Header Section with Title and Description
+            Panel headerPanel = new Panel();
+            headerPanel.Location = new Point(0, 0);
+            headerPanel.Size = new Size(900, 80);
+            headerPanel.BackColor = Color.FromArgb(33, 150, 243);
+            headerPanel.Padding = new Padding(15);
+
+            Label headerTitle = new Label();
+            headerTitle.Text = "📅 Class Schedule";
+            headerTitle.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            headerTitle.ForeColor = Color.White;
+            headerTitle.AutoSize = true;
+            headerTitle.Location = new Point(15, 10);
+            headerPanel.Controls.Add(headerTitle);
+
+            Label headerDesc = new Label();
+            headerDesc.Text = "View your class schedule and assignments.";
+            headerDesc.Font = new Font("Microsoft Sans Serif", 10);
+            headerDesc.ForeColor = Color.FromArgb(220, 240, 255);
+            headerDesc.AutoSize = true;
+            headerDesc.Location = new Point(15, 40);
+            headerPanel.Controls.Add(headerDesc);
+
+            panel.Controls.Add(headerPanel);
+
+            DataGridView dgv = new DataGridView();
+            dgv.Width = 900;
+            dgv.Height = 300;
+            dgv.Location = new Point(0, 90);
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.FixedSingle;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(33, 150, 243);
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.AllowUserToAddRows = false;
+            dgv.ReadOnly = true;
+
+            dgv.Columns.Add("Day", "Day");
+            dgv.Columns.Add("Time", "Time");
+            dgv.Columns.Add("Subject", "Subject");
+            dgv.Columns.Add("Teacher", "Teacher");
+            dgv.Columns.Add("Room", "Room");
+
+            dgv.Rows.Add("Monday", "08:00-09:00", "Mathematics", "Mr. John", "101");
+            dgv.Rows.Add("Monday", "09:00-10:00", "English", "Ms. Sarah", "102");
+            dgv.Rows.Add("Tuesday", "08:00-09:00", "Science", "Mr. Mike", "103");
+            dgv.Rows.Add("Tuesday", "10:00-11:00", "History", "Mr. Robert", "104");
+            dgv.Rows.Add("Wednesday", "08:00-09:00", "PE", "Mr. James", "Gym");
+
+            panel.Controls.Add(dgv);
+            panel.Height = 410;
+        }
+
+        private void AddViewGradesData(Panel panel)
+        {
+            // Header Section with Title and Description
+            Panel headerPanel = new Panel();
+            headerPanel.Location = new Point(0, 0);
+            headerPanel.Size = new Size(900, 80);
+            headerPanel.BackColor = Color.FromArgb(33, 150, 243);
+            headerPanel.Padding = new Padding(15);
+
+            Label headerTitle = new Label();
+            headerTitle.Text = "⭐ Grades";
+            headerTitle.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            headerTitle.ForeColor = Color.White;
+            headerTitle.AutoSize = true;
+            headerTitle.Location = new Point(15, 10);
+            headerPanel.Controls.Add(headerTitle);
+
+            Label headerDesc = new Label();
+            headerDesc.Text = "View your academic grades and transcripts.";
+            headerDesc.Font = new Font("Microsoft Sans Serif", 10);
+            headerDesc.ForeColor = Color.FromArgb(220, 240, 255);
+            headerDesc.AutoSize = true;
+            headerDesc.Location = new Point(15, 40);
+            headerPanel.Controls.Add(headerDesc);
+
+            panel.Controls.Add(headerPanel);
+
+            // Summary card
+            Panel summaryCard = CreateSummaryCard("🎓 Overall Average: 87.5%", Color.FromArgb(33, 150, 243));
+            summaryCard.Location = new Point(0, 90);
+            Label summaryText = new Label();
+            summaryText.Text = "Grade: B+ | Performance: Good";
+            summaryText.Font = new Font("Microsoft Sans Serif", 11);
+            summaryText.ForeColor = Color.FromArgb(33, 150, 243);
+            summaryText.AutoSize = true;
+            summaryText.Location = new Point(15, 15);
+            summaryCard.Controls.Add(summaryText);
+            panel.Controls.Add(summaryCard);
+
+            // Grades table
+            DataGridView dgv = new DataGridView();
+            dgv.Width = 900;
+            dgv.Height = 250;
+            dgv.Location = new Point(0, 170);
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.FixedSingle;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(33, 150, 243);
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.AllowUserToAddRows = false;
+            dgv.ReadOnly = true;
+
+            dgv.Columns.Add("Subject", "Subject");
+            dgv.Columns.Add("Midterm", "Midterm");
+            dgv.Columns.Add("Final", "Final");
+            dgv.Columns.Add("Average", "Average");
+            dgv.Columns.Add("Grade", "Grade");
+
+            dgv.Rows.Add("Mathematics", "85", "90", "87.5", "B+");
+            dgv.Rows.Add("English", "88", "92", "90", "A-");
+            dgv.Rows.Add("Science", "82", "85", "83.5", "B");
+            dgv.Rows.Add("History", "90", "88", "89", "B+");
+            dgv.Rows.Add("PE", "95", "93", "94", "A");
+
+            panel.Controls.Add(dgv);
+            panel.Height = 450;
+        }
+
+        private void AddMessagingData(Panel panel)
+        {
+            // Header Section with Title and Description
+            Panel headerPanel = new Panel();
+            headerPanel.Location = new Point(0, 0);
+            headerPanel.Size = new Size(900, 80);
+            headerPanel.BackColor = Color.FromArgb(33, 150, 243);
+            headerPanel.Padding = new Padding(15);
+
+            Label headerTitle = new Label();
+            headerTitle.Text = "💬 Messages";
+            headerTitle.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            headerTitle.ForeColor = Color.White;
+            headerTitle.AutoSize = true;
+            headerTitle.Location = new Point(15, 10);
+            headerPanel.Controls.Add(headerTitle);
+
+            Label headerDesc = new Label();
+            headerDesc.Text = "Communicate with teachers and classmates.";
+            headerDesc.Font = new Font("Microsoft Sans Serif", 10);
+            headerDesc.ForeColor = Color.FromArgb(220, 240, 255);
+            headerDesc.AutoSize = true;
+            headerDesc.Location = new Point(15, 40);
+            headerPanel.Controls.Add(headerDesc);
+
+            panel.Controls.Add(headerPanel);
+
+            DataGridView dgv = new DataGridView();
+            dgv.Width = 900;
+            dgv.Height = 300;
+            dgv.Location = new Point(0, 90);
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.FixedSingle;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(33, 150, 243);
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.AllowUserToAddRows = false;
+            dgv.ReadOnly = true;
+
+            dgv.Columns.Add("From", "From");
+            dgv.Columns.Add("Subject", "Subject");
+            dgv.Columns.Add("Date", "Date");
+            dgv.Columns.Add("Time", "Time");
+            dgv.Columns.Add("Status", "Status");
+
+            dgv.Rows.Add("Mr. John (Math)", "Assignment Due", "2024-01-19", "10:30 AM", "Unread");
+            dgv.Rows.Add("Ms. Sarah (English)", "Quiz Tomorrow", "2024-01-18", "02:15 PM", "Read");
+            dgv.Rows.Add("Mike (Classmate)", "Project Help", "2024-01-18", "04:00 PM", "Read");
+            dgv.Rows.Add("Mr. Mike (Science)", "Lab Report", "2024-01-17", "08:45 AM", "Read");
+            dgv.Rows.Add("Admin", "Holiday Notice", "2024-01-15", "09:00 AM", "Read");
+
+            panel.Controls.Add(dgv);
+            panel.Height = 410;
+        }
+
+        private void AddNotificationsData(Panel panel)
+        {
+            // Header Section with Title and Description
+            Panel headerPanel = new Panel();
+            headerPanel.Location = new Point(0, 0);
+            headerPanel.Size = new Size(900, 80);
+            headerPanel.BackColor = Color.FromArgb(33, 150, 243);
+            headerPanel.Padding = new Padding(15);
+
+            Label headerTitle = new Label();
+            headerTitle.Text = "🔔 Notifications";
+            headerTitle.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            headerTitle.ForeColor = Color.White;
+            headerTitle.AutoSize = true;
+            headerTitle.Location = new Point(15, 10);
+            headerPanel.Controls.Add(headerTitle);
+
+            Label headerDesc = new Label();
+            headerDesc.Text = "View important school notifications.";
+            headerDesc.Font = new Font("Microsoft Sans Serif", 10);
+            headerDesc.ForeColor = Color.FromArgb(220, 240, 255);
+            headerDesc.AutoSize = true;
+            headerDesc.Location = new Point(15, 40);
+            headerPanel.Controls.Add(headerDesc);
+
+            panel.Controls.Add(headerPanel);
+
+            DataGridView dgv = new DataGridView();
+            dgv.Width = 900;
+            dgv.Height = 300;
+            dgv.Location = new Point(0, 90);
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.FixedSingle;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(33, 150, 243);
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.AllowUserToAddRows = false;
+            dgv.ReadOnly = true;
+            dgv.AutoResizeColumns();
+
+            dgv.Columns.Add("Title", "Title");
+            dgv.Columns.Add("Message", "Message");
+            dgv.Columns.Add("Date", "Date");
+            dgv.Columns.Add("Type", "Type");
+
+            dgv.Rows.Add("🔔 Grade Posted", "Your Math grade has been updated", "2024-01-19", "Academic");
+            dgv.Rows.Add("📢 Schedule Change", "Monday classes are moved to Tuesday", "2024-01-18", "Schedule");
+            dgv.Rows.Add("⚠️ Assignment Due", "English essay due tomorrow", "2024-01-18", "Assignment");
+            dgv.Rows.Add("🎉 Holiday Notice", "School holiday on January 25", "2024-01-15", "Holiday");
+            dgv.Rows.Add("📚 Library Notice", "New books available", "2024-01-14", "General");
+
+            panel.Controls.Add(dgv);
+            panel.Height = 410;
+        }
+
+        private void AddWelcomeContent(Panel panel)
+        {
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "Welcome to Student Dashboard";
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            welcomeLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Location = new Point(0, 0);
+            panel.Controls.Add(welcomeLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = "View your attendance, class schedule, grades, and communicate with your school community.";
+            descLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 40);
+            descLabel.MaximumSize = new Size(800, 100);
+            panel.Controls.Add(descLabel);
+
+            // Quick stats
+            Panel statsPanel = new Panel();
+            statsPanel.Location = new Point(0, 120);
+            statsPanel.Size = new Size(900, 200);
+            statsPanel.BackColor = Color.Transparent;
+
+            Panel stat1 = CreateStatCard("Attendance", "93.3%", Color.FromArgb(76, 175, 80));
+            stat1.Location = new Point(0, 0);
+            statsPanel.Controls.Add(stat1);
+
+            Panel stat2 = CreateStatCard("Average Grade", "87.5%", Color.FromArgb(33, 150, 243));
+            stat2.Location = new Point(220, 0);
+            statsPanel.Controls.Add(stat2);
+
+            Panel stat3 = CreateStatCard("New Messages", "1", Color.FromArgb(255, 152, 0));
+            stat3.Location = new Point(440, 0);
+            statsPanel.Controls.Add(stat3);
+
+            Panel stat4 = CreateStatCard("Notifications", "5", Color.FromArgb(244, 67, 54));
+            stat4.Location = new Point(660, 0);
+            statsPanel.Controls.Add(stat4);
+
+            panel.Controls.Add(statsPanel);
+            panel.Height = 350;
+        }
+
+        private void AddStudentAnalyticsData(Panel panel)
+        {
+            // Performance Summary Stats
+            Panel statsPanel = new Panel();
+            statsPanel.Location = new Point(0, 0);
+            statsPanel.Size = new Size(920, 140);
+            statsPanel.BackColor = Color.Transparent;
+
+            Panel stat1 = CreateStatCard("Current GPA", "3.85/4.0", Color.FromArgb(76, 175, 80));
+            stat1.Location = new Point(0, 0);
+            statsPanel.Controls.Add(stat1);
+
+            Panel stat2 = CreateStatCard("Attendance Rate", "93.3%", Color.FromArgb(33, 150, 243));
+            stat2.Location = new Point(220, 0);
+            statsPanel.Controls.Add(stat2);
+
+            Panel stat3 = CreateStatCard("Average Grade", "87.5%", Color.FromArgb(255, 152, 0));
+            stat3.Location = new Point(440, 0);
+            statsPanel.Controls.Add(stat3);
+
+            Panel stat4 = CreateStatCard("Classes Enrolled", "5", Color.FromArgb(244, 67, 54));
+            stat4.Location = new Point(660, 0);
+            statsPanel.Controls.Add(stat4);
+
+            panel.Controls.Add(statsPanel);
+
+            // Grade Analytics by Subject
+            Panel gradesSection = new Panel();
+            gradesSection.Location = new Point(0, 160);
+            gradesSection.Size = new Size(920, 320);
+            gradesSection.BackColor = Color.White;
+            gradesSection.BorderStyle = BorderStyle.FixedSingle;
+            gradesSection.Padding = new Padding(15);
+
+            Label gradesTitle = new Label();
+            gradesTitle.Text = "📊 Your Grade Analytics";
+            gradesTitle.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            gradesTitle.ForeColor = Color.FromArgb(33, 33, 33);
+            gradesTitle.AutoSize = true;
+            gradesTitle.Location = new Point(15, 10);
+            gradesSection.Controls.Add(gradesTitle);
+
+            DataGridView gradesDgv = new DataGridView();
+            gradesDgv.Width = 880;
+            gradesDgv.Height = 250;
+            gradesDgv.Location = new Point(0, 45);
+            gradesDgv.BackgroundColor = Color.White;
+            gradesDgv.BorderStyle = BorderStyle.None;
+            gradesDgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
+            gradesDgv.ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Bold);
+            gradesDgv.AllowUserToAddRows = false;
+            gradesDgv.ReadOnly = true;
+
+            gradesDgv.Columns.Add("Subject", "Subject");
+            gradesDgv.Columns.Add("Midterm", "Midterm");
+            gradesDgv.Columns.Add("Final", "Final");
+            gradesDgv.Columns.Add("Average", "Average");
+            gradesDgv.Columns.Add("Grade", "Grade");
+
+            gradesDgv.Rows.Add("Mathematics", "85", "90", "87.5", "B+");
+            gradesDgv.Rows.Add("English", "88", "92", "90", "A-");
+            gradesDgv.Rows.Add("Science", "82", "85", "83.5", "B");
+            gradesDgv.Rows.Add("History", "90", "88", "89", "B+");
+            gradesDgv.Rows.Add("PE", "95", "93", "94", "A");
+
+            gradesSection.Controls.Add(gradesDgv);
+            panel.Controls.Add(gradesSection);
+
+            panel.Height = 500;
+        }
+
+        private Panel CreateSummaryCard(string title, Color accentColor)
+        {
+            Panel card = new Panel();
+            card.Width = 900;
+            card.Height = 60;
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.FixedSingle;
+            card.Padding = new Padding(15);
+
+            Label label = new Label();
+            label.Text = title;
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.ForeColor = accentColor;
+            label.AutoSize = true;
+            label.Location = new Point(15, 15);
+            card.Controls.Add(label);
+
+            return card;
+        }
+
+        private Panel CreateStatCard(string label, string value, Color color)
+        {
+            Panel card = new Panel();
+            card.Width = 200;
+            card.Height = 120;
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.FixedSingle;
+            card.Padding = new Padding(15);
+
+            Label valueLabel = new Label();
+            valueLabel.Text = value;
+            valueLabel.Font = new Font("Microsoft Sans Serif", 24, FontStyle.Bold);
+            valueLabel.ForeColor = color;
+            valueLabel.AutoSize = true;
+            valueLabel.Location = new Point(15, 15);
+            card.Controls.Add(valueLabel);
+
+            Label labelText = new Label();
+            labelText.Text = label;
+            labelText.Font = new Font("Microsoft Sans Serif", 10);
+            labelText.ForeColor = Color.FromArgb(100, 100, 100);
+            labelText.AutoSize = true;
+            labelText.Location = new Point(15, 70);
+            card.Controls.Add(labelText);
+
+            return card;
+        }
+    }
+}

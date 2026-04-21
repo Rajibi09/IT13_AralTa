@@ -1,0 +1,230 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class StaffDashboard : BaseDashboard
+    {
+        public StaffDashboard() : base("Staff")
+        {
+            InitializeStaffDashboard();
+        }
+
+        private void InitializeStaffDashboard()
+        {
+            // Staff use cases
+            AddMenuButton("👥 Accounts", (s, e) => ShowContent("Accounts"));
+            AddMenuButton("📚 Class", (s, e) => ShowContent("Manage Class"));
+            AddMenuButton("📊 Grades & Assessments", (s, e) => ShowContent("Grades & Assessments"));
+
+            // Show default content
+            ShowContent("Welcome to Staff Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+
+            // Create a modern card-based layout
+            Panel mainPanel = new Panel();
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.BackColor = Color.FromArgb(240, 240, 240);
+            mainPanel.AutoScroll = true;
+            mainPanel.Padding = new Padding(20);
+
+            // Title Section
+            Panel titlePanel = new Panel();
+            titlePanel.Height = 80;
+            titlePanel.Dock = DockStyle.Top;
+            titlePanel.BackColor = Color.Transparent;
+
+            Label titleLabel = new Label();
+            titleLabel.Text = "📋 " + contentType;
+            titleLabel.Font = new Font("Microsoft Sans Serif", 24, FontStyle.Bold);
+            titleLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            titleLabel.AutoSize = true;
+            titleLabel.Location = new Point(0, 10);
+            titlePanel.Controls.Add(titleLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = GetDescription(contentType);
+            descLabel.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Regular);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 50);
+            descLabel.MaximumSize = new Size(600, 50);
+            titlePanel.Controls.Add(descLabel);
+
+            mainPanel.Controls.Add(titlePanel);
+
+            // Content Cards
+            Panel cardsPanel = new Panel();
+            cardsPanel.Dock = DockStyle.Top;
+            cardsPanel.BackColor = Color.Transparent;
+            cardsPanel.AutoSize = true;
+            cardsPanel.Padding = new Padding(0, 20, 0, 0);
+
+            switch (contentType)
+            {
+                case "Accounts":
+                    AddUserAccountsCards(cardsPanel);
+                    break;
+                case "Class":
+                    AddManageClassCards(cardsPanel);
+                    break;
+                case "Grades & Assessments":
+                    AddGradesCards(cardsPanel);
+                    break;
+                default:
+                    AddWelcomeCards(cardsPanel);
+                    break;
+            }
+
+            mainPanel.Controls.Add(cardsPanel);
+            contentPanel.Controls.Add(mainPanel);
+        }
+
+        private string GetDescription(string contentType)
+        {
+            switch (contentType)
+            {
+                case "Accounts":
+                    return "Manage student and staff accounts, update information, and assist with registrations.";
+                case "Class":
+                    return "Create and manage classes, assign students, and view schedules.";
+                case "Grades & Assessments":
+                    return "Create assessments, input grades, and generate grading reports.";
+                default:
+                    return "Welcome to your Staff Dashboard. Select an option to get started.";
+            }
+        }
+
+        private void AddUserAccountsCards(Panel panel)
+        {
+            string[] items = {
+                "👤 Add New Student",
+                "✏️ Update Student Info",
+                "📝 Student Registration",
+                "📋 View Student List",
+                "👤 View My Profile"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddManageClassCards(Panel panel)
+        {
+            string[] items = {
+                "➕ Create Class",
+                "✏️ Edit Class",
+                "👥 Assign Students",
+                "📅 View Schedule",
+                "❌ Remove Class"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddGradesCards(Panel panel)
+        {
+            string[] items = {
+                "🆕 Create Assessment",
+                "📊 Input Grades",
+                "📈 Grade Reports",
+                "🔢 Calculate Average",
+                "📄 Grading Summary"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddWelcomeCards(Panel panel)
+        {
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "Welcome to Staff Dashboard";
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            welcomeLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Location = new Point(0, 0);
+            panel.Controls.Add(welcomeLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = "You have access to: User Account Management, Class Management, and Grades & Assessments.";
+            descLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 40);
+            descLabel.MaximumSize = new Size(800, 100);
+            panel.Controls.Add(descLabel);
+
+            panel.Height = 150;
+        }
+
+        private Panel CreateCard(string title, int width, int height)
+        {
+            Panel card = new Panel();
+            card.Width = width;
+            card.Height = height;
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.None;
+            card.Padding = new Padding(15);
+            card.Cursor = Cursors.Hand;
+
+            // Add shadow effect (border)
+            card.BackColor = Color.White;
+            card.Paint += (s, e) =>
+            {
+                e.Graphics.DrawRectangle(new Pen(Color.FromArgb(220, 220, 220), 1), 0, 0, card.Width - 1, card.Height - 1);
+            };
+
+            Label label = new Label();
+            label.Text = title;
+            label.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Bold);
+            label.ForeColor = Color.FromArgb(33, 33, 33);
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            label.Dock = DockStyle.Fill;
+            label.AutoSize = false;
+            card.Controls.Add(label);
+
+            // Hover effects
+            card.MouseEnter += (s, e) =>
+            {
+                card.BackColor = Color.FromArgb(0, 102, 204);
+                label.ForeColor = Color.White;
+            };
+
+            card.MouseLeave += (s, e) =>
+            {
+                card.BackColor = Color.White;
+                label.ForeColor = Color.FromArgb(33, 33, 33);
+            };
+
+            return card;
+        }
+    }
+}

@@ -1,0 +1,234 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class TeacherDashboard : BaseDashboard
+    {
+        public TeacherDashboard() : base("Teacher")
+        {
+            InitializeTeacherDashboard();
+        }
+
+        private void InitializeTeacherDashboard()
+        {
+            // Teacher use cases
+            AddMenuButton("View Grades", (s, e) => ShowContent("View Grades"));
+            AddMenuButton("Track Attendance", (s, e) => ShowContent("Track Attendance"));
+            AddMenuButton("View Attendance Record", (s, e) => ShowContent("View Attendance Record"));
+            AddMenuButton("View Class Schedule", (s, e) => ShowContent("View Class Schedule"));
+            AddMenuButton("Send and Receive Messages", (s, e) => ShowContent("Send and Receive Messages"));
+
+            // Show default content
+            ShowContent("Welcome to Teacher Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+
+            Label titleLabel = new Label();
+            titleLabel.Text = contentType;
+            titleLabel.Font = new Font("Microsoft Sans Serif", 18, FontStyle.Bold);
+            titleLabel.Dock = DockStyle.Top;
+            titleLabel.Height = 60;
+            titleLabel.Padding = new Padding(20);
+            titleLabel.BackColor = Color.FromArgb(156, 39, 176);
+            titleLabel.ForeColor = Color.White;
+            contentPanel.Controls.Add(titleLabel);
+
+            Panel contentArea = new Panel();
+            contentArea.Dock = DockStyle.Fill;
+            contentArea.Padding = new Padding(20);
+
+            switch (contentType)
+            {
+                case "View Grades":
+                    AddViewGradesContent(contentArea);
+                    break;
+                case "Track Attendance":
+                    AddTrackAttendanceContent(contentArea);
+                    break;
+                case "View Attendance Record":
+                    AddViewAttendanceContent(contentArea);
+                    break;
+                case "View Class Schedule":
+                    AddViewScheduleContent(contentArea);
+                    break;
+                case "Send and Receive Messages":
+                    AddMessagingContent(contentArea);
+                    break;
+                default:
+                    AddWelcomeContent(contentArea);
+                    break;
+            }
+
+            contentPanel.Controls.Add(contentArea);
+        }
+
+        private void AddViewGradesContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "View Student Grades";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("Search Student Grades"),
+                CreateButton("View Class Grade Summary"),
+                CreateButton("View Grade Trends"),
+                CreateButton("Export Grade Report"),
+                CreateButton("Compare Student Performance")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddTrackAttendanceContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "Track Attendance";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("Mark Daily Attendance"),
+                CreateButton("Record Late Arrivals"),
+                CreateButton("Record Absences"),
+                CreateButton("Generate Attendance Report"),
+                CreateButton("View Attendance Statistics")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddViewAttendanceContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "View Attendance Records";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("View Attendance by Student"),
+                CreateButton("View Monthly Attendance"),
+                CreateButton("View Semester Attendance"),
+                CreateButton("Print Attendance Report"),
+                CreateButton("Analyze Attendance Patterns")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddViewScheduleContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "View Class Schedule";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("View Weekly Schedule"),
+                CreateButton("View Monthly Schedule"),
+                CreateButton("View Room Assignment"),
+                CreateButton("Check Class Timings"),
+                CreateButton("View Holiday Calendar")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddMessagingContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "Messaging System";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("Send Message to Students"),
+                CreateButton("Send Message to Parents"),
+                CreateButton("View Inbox"),
+                CreateButton("Create Message Template"),
+                CreateButton("View Message History")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddWelcomeContent(Panel panel)
+        {
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "Welcome to Teacher Dashboard";
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 14, FontStyle.Bold);
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Padding = new Padding(0, 20, 0, 20);
+            panel.Controls.Add(welcomeLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = "You can view grades, track attendance, view attendance records, view your class schedule, and communicate with students and parents.";
+            descLabel.Font = new Font("Microsoft Sans Serif", 11);
+            descLabel.AutoSize = true;
+            descLabel.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(descLabel);
+        }
+
+        private Button CreateButton(string text)
+        {
+            Button btn = new Button();
+            btn.Text = text;
+            btn.Height = 40;
+            btn.BackColor = Color.FromArgb(156, 39, 176);
+            btn.ForeColor = Color.White;
+            btn.Font = new Font("Microsoft Sans Serif", 10);
+            btn.Cursor = Cursors.Hand;
+            return btn;
+        }
+    }
+}

@@ -1,0 +1,10 @@
+C:\Users\Skybl\source\repos\IT13_project\obj\Debug\IT13_project.csproj.AssemblyReference.cache
+C:\Users\Skybl\source\repos\IT13_project\obj\Debug\IT13_project.Form1.resources
+C:\Users\Skybl\source\repos\IT13_project\obj\Debug\IT13_project.Properties.Resources.resources
+C:\Users\Skybl\source\repos\IT13_project\obj\Debug\IT13_project.csproj.GenerateResource.cache
+C:\Users\Skybl\source\repos\IT13_project\obj\Debug\IT13_project.csproj.CoreCompileInputs.cache
+C:\Users\Skybl\source\repos\IT13_project\bin\Debug\IT13_project.exe.config
+C:\Users\Skybl\source\repos\IT13_project\bin\Debug\IT13_project.exe
+C:\Users\Skybl\source\repos\IT13_project\bin\Debug\IT13_project.pdb
+C:\Users\Skybl\source\repos\IT13_project\obj\Debug\IT13_project.exe
+C:\Users\Skybl\source\repos\IT13_project\obj\Debug\IT13_project.pdb

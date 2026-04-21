@@ -1,0 +1,203 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class ParentDashboard : BaseDashboard
+    {
+        public ParentDashboard() : base("Parent")
+        {
+            InitializeParentDashboard();
+        }
+
+        private void InitializeParentDashboard()
+        {
+            // Parent use cases
+            AddMenuButton("View Attendance Record", (s, e) => ShowContent("View Attendance Record"));
+            AddMenuButton("Send and Receive Messages", (s, e) => ShowContent("Send and Receive Messages"));
+            AddMenuButton("View Grades", (s, e) => ShowContent("View Grades"));
+            AddMenuButton("Receive Notifications", (s, e) => ShowContent("Receive Notifications"));
+
+            // Show default content
+            ShowContent("Welcome to Parent Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+
+            Label titleLabel = new Label();
+            titleLabel.Text = contentType;
+            titleLabel.Font = new Font("Microsoft Sans Serif", 18, FontStyle.Bold);
+            titleLabel.Dock = DockStyle.Top;
+            titleLabel.Height = 60;
+            titleLabel.Padding = new Padding(20);
+            titleLabel.BackColor = Color.FromArgb(244, 67, 54);
+            titleLabel.ForeColor = Color.White;
+            contentPanel.Controls.Add(titleLabel);
+
+            Panel contentArea = new Panel();
+            contentArea.Dock = DockStyle.Fill;
+            contentArea.Padding = new Padding(20);
+
+            switch (contentType)
+            {
+                case "View Attendance Record":
+                    AddViewAttendanceContent(contentArea);
+                    break;
+                case "Send and Receive Messages":
+                    AddMessagingContent(contentArea);
+                    break;
+                case "View Grades":
+                    AddViewGradesContent(contentArea);
+                    break;
+                case "Receive Notifications":
+                    AddNotificationsContent(contentArea);
+                    break;
+                default:
+                    AddWelcomeContent(contentArea);
+                    break;
+            }
+
+            contentPanel.Controls.Add(contentArea);
+        }
+
+        private void AddViewAttendanceContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "Child's Attendance Record";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("View Monthly Attendance"),
+                CreateButton("View Semester Attendance"),
+                CreateButton("View Attendance Percentage"),
+                CreateButton("Download Attendance Report"),
+                CreateButton("View Absences")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddMessagingContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "Communication";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("Send Message to Teachers"),
+                CreateButton("Send Message to School"),
+                CreateButton("View Inbox"),
+                CreateButton("View Sent Messages"),
+                CreateButton("Important Conversations")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddViewGradesContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "Child's Grades";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("View Current Grades"),
+                CreateButton("View Grade History"),
+                CreateButton("View Grade by Subject"),
+                CreateButton("View Grade Trends"),
+                CreateButton("Download Progress Report")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddNotificationsContent(Panel panel)
+        {
+            Label label = new Label();
+            label.Text = "Notifications";
+            label.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            label.AutoSize = true;
+            label.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(label);
+
+            Button[] buttons = {
+                CreateButton("View All Notifications"),
+                CreateButton("View Grade Notifications"),
+                CreateButton("View Attendance Notifications"),
+                CreateButton("View School Announcements"),
+                CreateButton("Notification Settings")
+            };
+
+            int yPos = 50;
+            foreach (Button btn in buttons)
+            {
+                btn.Location = new Point(20, yPos);
+                btn.Width = 250;
+                panel.Controls.Add(btn);
+                yPos += 50;
+            }
+        }
+
+        private void AddWelcomeContent(Panel panel)
+        {
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "Welcome to Parent Dashboard";
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 14, FontStyle.Bold);
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Padding = new Padding(0, 20, 0, 20);
+            panel.Controls.Add(welcomeLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = "You can view your child's attendance records, communicate with teachers, view grades, and receive important notifications.";
+            descLabel.Font = new Font("Microsoft Sans Serif", 11);
+            descLabel.AutoSize = true;
+            descLabel.Padding = new Padding(0, 10, 0, 10);
+            panel.Controls.Add(descLabel);
+        }
+
+        private Button CreateButton(string text)
+        {
+            Button btn = new Button();
+            btn.Text = text;
+            btn.Height = 40;
+            btn.BackColor = Color.FromArgb(244, 67, 54);
+            btn.ForeColor = Color.White;
+            btn.Font = new Font("Microsoft Sans Serif", 10);
+            btn.Cursor = Cursors.Hand;
+            return btn;
+        }
+    }
+}

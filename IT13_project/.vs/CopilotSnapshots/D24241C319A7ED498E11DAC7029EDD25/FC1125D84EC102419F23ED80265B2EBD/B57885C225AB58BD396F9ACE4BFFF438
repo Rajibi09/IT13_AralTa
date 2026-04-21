@@ -1,0 +1,106 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class BaseDashboard : Form
+    {
+        protected Panel leftPanel;
+        protected Panel contentPanel;
+        protected Label titleLabel;
+        protected Button logoutButton;
+        protected List<Button> menuButtons = new List<Button>();
+
+        // Parameterless constructor for designer support
+        public BaseDashboard()
+        {
+            this.InitializeBaseDashboard("Dashboard");
+        }
+
+        public BaseDashboard(string userRole)
+        {
+            this.InitializeBaseDashboard(userRole);
+        }
+
+        protected virtual void InitializeBaseDashboard(string userRole)
+        {
+            this.Text = $"AralTa - {userRole} Dashboard";
+            this.WindowState = FormWindowState.Maximized;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.Size = new Size(1365, 625);
+
+            // Left Navigation Panel
+            leftPanel = new Panel();
+            leftPanel.Dock = DockStyle.Left;
+            leftPanel.Width = 200;
+            leftPanel.BackColor = Color.FromArgb(50, 50, 50);
+
+            // Title Label
+            titleLabel = new Label();
+            titleLabel.Text = userRole;
+            titleLabel.Font = new Font("Microsoft Sans Serif", 14, FontStyle.Bold);
+            titleLabel.ForeColor = Color.White;
+            titleLabel.Dock = DockStyle.Top;
+            titleLabel.Height = 50;
+            titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            leftPanel.Controls.Add(titleLabel);
+
+            // Logout Button
+            logoutButton = new Button();
+            logoutButton.Text = "Logout";
+            logoutButton.Dock = DockStyle.Bottom;
+            logoutButton.Height = 50;
+            logoutButton.BackColor = Color.FromArgb(192, 0, 0);
+            logoutButton.ForeColor = Color.White;
+            logoutButton.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Bold);
+            logoutButton.Click += LogoutButton_Click;
+            leftPanel.Controls.Add(logoutButton);
+
+            // Content Panel
+            contentPanel = new Panel();
+            contentPanel.Dock = DockStyle.Fill;
+            contentPanel.BackColor = Color.White;
+
+            // Add controls to form
+            this.Controls.Add(contentPanel);
+            this.Controls.Add(leftPanel);
+        }
+
+        protected void AddMenuButton(string buttonText, EventHandler clickHandler)
+        {
+            Button btn = new Button();
+            btn.Text = buttonText;
+            btn.Width = 200;
+            btn.Height = 50;
+            btn.Dock = DockStyle.Top;
+            btn.BackColor = Color.FromArgb(70, 70, 70);
+            btn.ForeColor = Color.White;
+            btn.Font = new Font("Microsoft Sans Serif", 10);
+            btn.FlatStyle = FlatStyle.Flat;
+            btn.Click += clickHandler;
+            btn.MouseEnter += (s, e) => btn.BackColor = Color.FromArgb(100, 100, 100);
+            btn.MouseLeave += (s, e) => btn.BackColor = Color.FromArgb(70, 70, 70);
+
+            menuButtons.Add(btn);
+            leftPanel.Controls.Add(btn);
+        }
+
+        protected void ClearContentPanel()
+        {
+            contentPanel.Controls.Clear();
+        }
+
+        protected void AddControlToContent(Control control)
+        {
+            control.Dock = DockStyle.Fill;
+            contentPanel.Controls.Add(control);
+        }
+
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}

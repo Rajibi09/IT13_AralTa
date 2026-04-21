@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace IT13_project
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // Set default role
+            roleComboBox.SelectedIndex = 0;
+        }
+
+        private void loginButton_Click(object sender, EventArgs e)
+        {
+            string username = usernameTextBox.Text.Trim();
+            string password = passwordTextBox.Text.Trim();
+            string role = roleComboBox.SelectedItem?.ToString();
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Please enter username and password.", "Login Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (role == null)
+            {
+                MessageBox.Show("Please select a role.", "Login Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Create and show the appropriate dashboard based on role
+            Form dashboard = CreateDashboardForm(role);
+            if (dashboard != null)
+            {
+                this.Hide();
+                dashboard.FormClosed += (s, args) => this.Show();
+                dashboard.ShowDialog();
+            }
+        }
+
+        private Form CreateDashboardForm(string role)
+        {
+            switch (role)
+            {
+                case "Super Admin":
+                    return new SuperAdminDashboard();
+                case "Admin":
+                    return new AdminDashboard();
+                case "Staff":
+                    return new StaffDashboard();
+                case "Teacher":
+                    return new TeacherDashboard();
+                case "Student":
+                    return new StudentDashboard();
+                case "Parent":
+                    return new ParentDashboard();
+                case "Principal":
+                    return new PrincipalDashboard();
+                default:
+                    MessageBox.Show("Unknown role.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void usernameTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void passwordTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+    }
+}

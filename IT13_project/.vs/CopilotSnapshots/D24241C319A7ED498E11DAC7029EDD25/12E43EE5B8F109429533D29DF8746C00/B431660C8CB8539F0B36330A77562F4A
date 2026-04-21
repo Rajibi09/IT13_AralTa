@@ -1,0 +1,48 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class ParentDashboard : BaseDashboard
+    {
+        public ParentDashboard() : base("Parent")
+        {
+            InitializeParentDashboard();
+        }
+
+        private void InitializeParentDashboard()
+        {
+            // Add menu buttons for Parent use cases from the diagram
+            AddMenuButton("Login / Authenticate", (s, e) => ShowContent("Login / Authenticate"));
+            AddMenuButton("View Class Schedule", (s, e) => ShowContent("View Class Schedule"));
+            AddMenuButton("View Grades", (s, e) => ShowContent("View Grades"));
+            AddMenuButton("Monitor Child Progress", (s, e) => ShowContent("Monitor Child Progress"));
+            AddMenuButton("Send and Receive Messages", (s, e) => ShowContent("Send and Receive Messages"));
+            AddMenuButton("Receive Notifications", (s, e) => ShowContent("Receive Notifications"));
+
+            // Show default content
+            ShowContent("Parent Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+            
+            Label label = new Label();
+            label.Text = contentType;
+            label.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            label.Dock = DockStyle.Top;
+            label.Height = 50;
+            label.Padding = new Padding(20);
+            contentPanel.Controls.Add(label);
+
+            Label descriptionLabel = new Label();
+            descriptionLabel.Text = $"Content for: {contentType}\n\nImplement your business logic here.";
+            descriptionLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descriptionLabel.Dock = DockStyle.Fill;
+            descriptionLabel.Padding = new Padding(20);
+            contentPanel.Controls.Add(descriptionLabel);
+        }
+    }
+}

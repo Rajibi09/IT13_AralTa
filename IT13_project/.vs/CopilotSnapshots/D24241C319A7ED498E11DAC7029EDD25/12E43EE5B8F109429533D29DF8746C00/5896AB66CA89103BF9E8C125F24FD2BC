@@ -1,0 +1,51 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class SuperAdminDashboard : BaseDashboard
+    {
+        public SuperAdminDashboard() : base("Super Admin")
+        {
+            InitializeSuperAdminDashboard();
+        }
+
+        private void InitializeSuperAdminDashboard()
+        {
+            // Add menu buttons for Super Admin use cases from the diagram
+            AddMenuButton("Login / Authenticate", (s, e) => ShowContent("Login / Authenticate"));
+            AddMenuButton("Manage System Settings", (s, e) => ShowContent("Manage System Settings"));
+            AddMenuButton("Manage MSME Tier / Config", (s, e) => ShowContent("Manage MSME Tier / Config"));
+            AddMenuButton("Manage User Accounts", (s, e) => ShowContent("Manage User Accounts"));
+            AddMenuButton("Manage Class Schedule", (s, e) => ShowContent("Manage Class Schedule"));
+            AddMenuButton("Generate Reports", (s, e) => ShowContent("Generate Reports"));
+            AddMenuButton("Manage Grades & Assessments", (s, e) => ShowContent("Manage Grades & Assessments"));
+            AddMenuButton("View Grades", (s, e) => ShowContent("View Grades"));
+            AddMenuButton("Track Attendance", (s, e) => ShowContent("Track Attendance"));
+
+            // Show default content
+            ShowContent("Super Admin Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+            
+            Label label = new Label();
+            label.Text = contentType;
+            label.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            label.Dock = DockStyle.Top;
+            label.Height = 50;
+            label.Padding = new Padding(20);
+            contentPanel.Controls.Add(label);
+
+            Label descriptionLabel = new Label();
+            descriptionLabel.Text = $"Content for: {contentType}\n\nImplement your business logic here.";
+            descriptionLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descriptionLabel.Dock = DockStyle.Fill;
+            descriptionLabel.Padding = new Padding(20);
+            contentPanel.Controls.Add(descriptionLabel);
+        }
+    }
+}

@@ -1,0 +1,283 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class SuperAdminDashboard : BaseDashboard
+    {
+        public SuperAdminDashboard() : base("Super Admin")
+        {
+            InitializeSuperAdminDashboard();
+        }
+
+        private void InitializeSuperAdminDashboard()
+        {
+            // Super Admin use cases
+            AddMenuButton("⚙️ System Settings", (s, e) => ShowContent("System Settings"));
+            AddMenuButton("👥 Manage User Accounts", (s, e) => ShowContent("Manage User Accounts"));
+            AddMenuButton("📊 Generate Reports", (s, e) => ShowContent("Generate Reports"));
+            AddMenuButton("💬 Send and Receive Messages", (s, e) => ShowContent("Send and Receive Messages"));
+            AddMenuButton("📈 View Analytics Dashboard", (s, e) => ShowContent("View Analytics Dashboard"));
+
+            // Show default content
+            ShowContent("Welcome to Super Admin Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+
+            // Create a modern card-based layout
+            Panel mainPanel = new Panel();
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.BackColor = Color.FromArgb(240, 240, 240);
+            mainPanel.AutoScroll = true;
+            mainPanel.Padding = new Padding(20);
+
+            // Title Section
+            Panel titlePanel = new Panel();
+            titlePanel.Height = 80;
+            titlePanel.Dock = DockStyle.Top;
+            titlePanel.BackColor = Color.Transparent;
+
+            Label titleLabel = new Label();
+            titleLabel.Text = "📋 " + contentType;
+            titleLabel.Font = new Font("Microsoft Sans Serif", 24, FontStyle.Bold);
+            titleLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            titleLabel.AutoSize = true;
+            titleLabel.Location = new Point(0, 10);
+            titlePanel.Controls.Add(titleLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = GetDescription(contentType);
+            descLabel.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Regular);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 50);
+            descLabel.MaximumSize = new Size(600, 50);
+            titlePanel.Controls.Add(descLabel);
+
+            mainPanel.Controls.Add(titlePanel);
+
+            // Content Cards
+            Panel cardsPanel = new Panel();
+            cardsPanel.Dock = DockStyle.Top;
+            cardsPanel.BackColor = Color.Transparent;
+            cardsPanel.AutoSize = true;
+            cardsPanel.Padding = new Padding(0, 20, 0, 0);
+
+            switch (contentType)
+            {
+                case "System Settings":
+                    AddSystemSettingsCards(cardsPanel);
+                    break;
+                case "Manage User Accounts":
+                    AddUserAccountsCards(cardsPanel);
+                    break;
+                case "Generate Reports":
+                    AddReportsCards(cardsPanel);
+                    break;
+                case "Send and Receive Messages":
+                    AddMessagingCards(cardsPanel);
+                    break;
+                case "View Analytics Dashboard":
+                    AddAnalyticsCards(cardsPanel);
+                    break;
+                default:
+                    AddWelcomeCards(cardsPanel);
+                    break;
+            }
+
+            mainPanel.Controls.Add(cardsPanel);
+            contentPanel.Controls.Add(mainPanel);
+        }
+
+        private string GetDescription(string contentType)
+        {
+            switch (contentType)
+            {
+                case "System Settings":
+                    return "Configure system parameters, database, and security settings.";
+                case "Manage User Accounts":
+                    return "Create, edit, and manage all user accounts with full control.";
+                case "Generate Reports":
+                    return "Generate comprehensive system and activity reports.";
+                case "Send and Receive Messages":
+                    return "Send system messages and manage messaging templates.";
+                case "View Analytics Dashboard":
+                    return "View system-wide performance and activity analytics.";
+                default:
+                    return "Welcome to your Super Admin Dashboard. Full system control available.";
+            }
+        }
+
+        private void AddSystemSettingsCards(Panel panel)
+        {
+            string[] items = {
+                "⚙️ System Parameters",
+                "📧 Email Settings",
+                "🔒 Security Policies",
+                "🗄️ Database Config",
+                "💾 Backup Settings"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddUserAccountsCards(Panel panel)
+        {
+            string[] items = {
+                "➕ Create Account",
+                "✏️ Edit User Info",
+                "🗑️ Delete Account",
+                "🔑 Reset Password",
+                "👤 Manage Roles"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddReportsCards(Panel panel)
+        {
+            string[] items = {
+                "📊 Activity Report",
+                "👤 User Activity",
+                "💰 Financial Report",
+                "📄 Export to PDF",
+                "⏱️ Schedule Report"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddMessagingCards(Panel panel)
+        {
+            string[] items = {
+                "📤 Send Message",
+                "📥 View Inbox",
+                "📝 Message Template",
+                "📢 Bulk Messages",
+                "📁 Archive Messages"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddAnalyticsCards(Panel panel)
+        {
+            string[] items = {
+                "📊 Performance Metrics",
+                "👤 User Analytics",
+                "📈 Grade Analytics",
+                "📅 Attendance Trends",
+                "💾 Export Analytics"
+            };
+
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private void AddWelcomeCards(Panel panel)
+        {
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "Welcome to Super Admin Dashboard";
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            welcomeLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Location = new Point(0, 0);
+            panel.Controls.Add(welcomeLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = "You have full system control. Manage system settings, user accounts, generate reports, send messages, and view analytics.";
+            descLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 40);
+            descLabel.MaximumSize = new Size(800, 100);
+            panel.Controls.Add(descLabel);
+
+            panel.Height = 150;
+        }
+
+        private Panel CreateCard(string title, int width, int height)
+        {
+            Panel card = new Panel();
+            card.Width = width;
+            card.Height = height;
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.None;
+            card.Padding = new Padding(15);
+            card.Cursor = Cursors.Hand;
+
+            // Add border effect
+            card.Paint += (s, e) =>
+            {
+                e.Graphics.DrawRectangle(new Pen(Color.FromArgb(220, 220, 220), 1), 0, 0, card.Width - 1, card.Height - 1);
+            };
+
+            Label label = new Label();
+            label.Text = title;
+            label.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Bold);
+            label.ForeColor = Color.FromArgb(33, 33, 33);
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            label.Dock = DockStyle.Fill;
+            label.AutoSize = false;
+            card.Controls.Add(label);
+
+            // Hover effects
+            card.MouseEnter += (s, e) =>
+            {
+                card.BackColor = Color.FromArgb(0, 102, 204);
+                label.ForeColor = Color.White;
+            };
+
+            card.MouseLeave += (s, e) =>
+            {
+                card.BackColor = Color.White;
+                label.ForeColor = Color.FromArgb(33, 33, 33);
+            };
+
+            return card;
+        }
+    }
+}

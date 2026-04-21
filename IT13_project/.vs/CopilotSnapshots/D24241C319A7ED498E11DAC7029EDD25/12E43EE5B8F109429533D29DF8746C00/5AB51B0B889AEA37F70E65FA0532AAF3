@@ -1,0 +1,48 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class AdminDashboard : BaseDashboard
+    {
+        public AdminDashboard() : base("Admin")
+        {
+            InitializeAdminDashboard();
+        }
+
+        private void InitializeAdminDashboard()
+        {
+            // Add menu buttons for Admin use cases from the diagram
+            AddMenuButton("Login / Authenticate", (s, e) => ShowContent("Login / Authenticate"));
+            AddMenuButton("Manage System Settings", (s, e) => ShowContent("Manage System Settings"));
+            AddMenuButton("Manage User Accounts", (s, e) => ShowContent("Manage User Accounts"));
+            AddMenuButton("Manage Class Schedule", (s, e) => ShowContent("Manage Class Schedule"));
+            AddMenuButton("Generate Reports", (s, e) => ShowContent("Generate Reports"));
+            AddMenuButton("Manage Grades & Assessments", (s, e) => ShowContent("Manage Grades & Assessments"));
+
+            // Show default content
+            ShowContent("Admin Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+            
+            Label label = new Label();
+            label.Text = contentType;
+            label.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            label.Dock = DockStyle.Top;
+            label.Height = 50;
+            label.Padding = new Padding(20);
+            contentPanel.Controls.Add(label);
+
+            Label descriptionLabel = new Label();
+            descriptionLabel.Text = $"Content for: {contentType}\n\nImplement your business logic here.";
+            descriptionLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descriptionLabel.Dock = DockStyle.Fill;
+            descriptionLabel.Padding = new Padding(20);
+            contentPanel.Controls.Add(descriptionLabel);
+        }
+    }
+}

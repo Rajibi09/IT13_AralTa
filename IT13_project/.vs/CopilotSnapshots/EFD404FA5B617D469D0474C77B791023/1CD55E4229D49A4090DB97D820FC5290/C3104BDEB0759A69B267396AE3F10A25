@@ -1,0 +1,271 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class TeacherDashboard : BaseDashboard
+    {
+        public TeacherDashboard() : base("Teacher")
+        {
+            InitializeTeacherDashboard();
+        }
+
+        private void InitializeTeacherDashboard()
+        {
+            // Teacher use cases
+            AddMenuButton("📊 Attendance Record", (s, e) => ShowContent("Attendance Record"));
+            AddMenuButton("💬 Messages", (s, e) => ShowContent("Messages"));
+            AddMenuButton("📋 Attendance", (s, e) => ShowContent("Attendance"));
+            AddMenuButton("⭐ Grades", (s, e) => ShowContent("Grades"));
+            AddMenuButton("📅 Class Schedule", (s, e) => ShowContent("Class Schedule"));
+            // Show default content
+            ShowContent("Welcome to Teacher Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+
+            // Create a modern card-based layout
+            Panel mainPanel = new Panel();
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.BackColor = Color.FromArgb(240, 240, 240);
+            mainPanel.AutoScroll = true;
+            mainPanel.Padding = new Padding(20);
+
+            // Title Section - only show on default/welcome screen
+            if (contentType == "Welcome to Teacher Dashboard")
+            {
+                Panel titlePanel = new Panel();
+                titlePanel.Height = 80;
+                titlePanel.Dock = DockStyle.Top;
+                titlePanel.BackColor = Color.Transparent;
+
+                Label titleLabel = new Label();
+                titleLabel.Text = "📋 " + contentType;
+                titleLabel.Font = new Font("Microsoft Sans Serif", 24, FontStyle.Bold);
+                titleLabel.ForeColor = Color.FromArgb(33, 33, 33);
+                titleLabel.AutoSize = true;
+                titleLabel.Location = new Point(0, 10);
+                titlePanel.Controls.Add(titleLabel);
+
+                Label descLabel = new Label();
+                descLabel.Text = GetDescription(contentType);
+                descLabel.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Regular);
+                descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+                descLabel.AutoSize = true;
+                descLabel.Location = new Point(0, 50);
+                descLabel.MaximumSize = new Size(600, 50);
+                titlePanel.Controls.Add(descLabel);
+
+                mainPanel.Controls.Add(titlePanel);
+            }
+
+            // Content Cards
+            Panel cardsPanel = new Panel();
+            cardsPanel.Dock = DockStyle.Top;
+            cardsPanel.BackColor = Color.Transparent;
+            cardsPanel.AutoSize = true;
+            cardsPanel.Padding = new Padding(0, 20, 0, 0);
+
+            switch (contentType)
+            {
+                case "Grades":
+                    AddViewGradesCards(cardsPanel);
+                    break;
+                case "Attendance":
+                    AddTrackAttendanceCards(cardsPanel);
+                    break;
+                case "Attendance Record":
+                    AddViewAttendanceCards(cardsPanel);
+                    break;
+                case "Class Schedule":
+                    AddViewScheduleCards(cardsPanel);
+                    break;
+                case "Messages":
+                    AddMessagingCards(cardsPanel);
+                    break;
+                default:
+                    AddWelcomeCards(cardsPanel);
+                    break;
+            }
+
+            mainPanel.Controls.Add(cardsPanel);
+            contentPanel.Controls.Add(mainPanel);
+        }
+
+        private string GetDescription(string contentType)
+        {
+            switch (contentType)
+            {
+                case "Grades":
+                    return "View student grades and performance data.";
+                case "Track Attendance":
+                    return "Mark and track daily student attendance.";
+                case "Attendance Record":
+                    return "View student attendance records and history.";
+                case "Class Schedule":
+                    return "View your teaching schedule and class assignments.";
+                case "Messages":
+                    return "Communicate with students and parents.";
+                default:
+                    return "Welcome to your Teacher Dashboard.";
+            }
+        }
+
+        private void AddViewGradesCards(Panel panel)
+        {
+            Panel headerPanel = CreateHeaderPanel("⭐ Grades", "View student grades and performance data.", Color.FromArgb(156, 39, 176));
+            panel.Controls.Add(headerPanel);
+
+            string[] items = { "🔍 Search Grades", "📚 Grade by Class", "📈 Grade Trends", "📄 Grade Report", "⚖️ Compare Performance" };
+            AddCardsToPanel(panel, items, Color.FromArgb(156, 39, 176), 90);
+            panel.Height = 290;
+        }
+
+        private void AddTrackAttendanceCards(Panel panel)
+        {
+            Panel headerPanel = CreateHeaderPanel("📋 Attendance", "Mark and track daily student attendance.", Color.FromArgb(156, 39, 176));
+            panel.Controls.Add(headerPanel);
+
+            string[] items = { "✅ Mark Present", "❌ Mark Absent", "⏰ Mark Late", "📊 Today's Report", "📈 Statistics" };
+            AddCardsToPanel(panel, items, Color.FromArgb(156, 39, 176), 90);
+            panel.Height = 290;
+        }
+
+        private void AddViewAttendanceCards(Panel panel)
+        {
+            Panel headerPanel = CreateHeaderPanel("📊 Attendance Record", "View student attendance records and history.", Color.FromArgb(156, 39, 176));
+            panel.Controls.Add(headerPanel);
+
+            string[] items = { "👤 By Student", "📅 Monthly View", "📊 Semester View", "🖨️ Print Report", "📈 Analyze Patterns" };
+            AddCardsToPanel(panel, items, Color.FromArgb(156, 39, 176), 90);
+            panel.Height = 290;
+        }
+
+        private void AddViewScheduleCards(Panel panel)
+        {
+            Panel headerPanel = CreateHeaderPanel("📅 Class Schedule", "View your teaching schedule and class assignments.", Color.FromArgb(156, 39, 176));
+            panel.Controls.Add(headerPanel);
+
+            string[] items = { "📆 Weekly View", "📅 Monthly View", "🏫 Room Assignment", "⏰ Class Timings", "🎓 Holiday Calendar" };
+            AddCardsToPanel(panel, items, Color.FromArgb(156, 39, 176), 90);
+            panel.Height = 290;
+        }
+
+        private void AddMessagingCards(Panel panel)
+        {
+            Panel headerPanel = CreateHeaderPanel("💬 Messages", "Communicate with students and parents.", Color.FromArgb(156, 39, 176));
+            panel.Controls.Add(headerPanel);
+
+            string[] items = { "📤 To Students", "👨‍👩‍👧 To Parents", "📥 View Inbox", "📝 Templates", "📋 Message History" };
+            AddCardsToPanel(panel, items, Color.FromArgb(156, 39, 176), 90);
+            panel.Height = 290;
+        }
+
+        private void AddWelcomeCards(Panel panel)
+        {
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "Welcome to Teacher Dashboard";
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            welcomeLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Location = new Point(0, 0);
+            panel.Controls.Add(welcomeLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = "Manage your classes, track attendance, view grades, and communicate with students and parents.";
+            descLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 40);
+            descLabel.MaximumSize = new Size(800, 100);
+            panel.Controls.Add(descLabel);
+
+            panel.Height = 150;
+        }
+
+        private void AddCardsToPanel(Panel panel, string[] items, Color hoverColor, int yOffset = 0)
+        {
+            int xPos = 0;
+            Panel cardRow = new Panel();
+            cardRow.Location = new Point(0, yOffset);
+            cardRow.Size = new Size(1000, 180);
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150, hoverColor);
+                card.Location = new Point(xPos, 0);
+                cardRow.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Controls.Add(cardRow);
+        }
+
+        private Panel CreateHeaderPanel(string title, string description, Color bgColor)
+        {
+            Panel headerPanel = new Panel();
+            headerPanel.Location = new Point(0, 0);
+            headerPanel.Size = new Size(900, 80);
+            headerPanel.BackColor = bgColor;
+            headerPanel.Padding = new Padding(15);
+
+            Label headerTitle = new Label();
+            headerTitle.Text = title;
+            headerTitle.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            headerTitle.ForeColor = Color.White;
+            headerTitle.AutoSize = true;
+            headerTitle.Location = new Point(15, 10);
+            headerPanel.Controls.Add(headerTitle);
+
+            Label headerDesc = new Label();
+            headerDesc.Text = description;
+            headerDesc.Font = new Font("Microsoft Sans Serif", 10);
+            headerDesc.ForeColor = Color.FromArgb(230, 210, 255);
+            headerDesc.AutoSize = true;
+            headerDesc.Location = new Point(15, 40);
+            headerPanel.Controls.Add(headerDesc);
+
+            return headerPanel;
+        }
+
+        private Panel CreateCard(string title, int width, int height, Color hoverColor)
+        {
+            Panel card = new Panel();
+            card.Width = width;
+            card.Height = height;
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.None;
+            card.Padding = new Padding(15);
+            card.Cursor = Cursors.Hand;
+
+            card.Paint += (s, e) =>
+            {
+                e.Graphics.DrawRectangle(new Pen(Color.FromArgb(220, 220, 220), 1), 0, 0, card.Width - 1, card.Height - 1);
+            };
+
+            Label label = new Label();
+            label.Text = title;
+            label.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Bold);
+            label.ForeColor = Color.FromArgb(33, 33, 33);
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            label.Dock = DockStyle.Fill;
+            label.AutoSize = false;
+            card.Controls.Add(label);
+
+            card.MouseEnter += (s, e) =>
+            {
+                card.BackColor = hoverColor;
+                label.ForeColor = Color.White;
+            };
+
+            card.MouseLeave += (s, e) =>
+            {
+                card.BackColor = Color.White;
+                label.ForeColor = Color.FromArgb(33, 33, 33);
+            };
+
+            return card;
+        }
+    }
+}

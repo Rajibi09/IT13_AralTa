@@ -1,0 +1,49 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class StudentDashboard : BaseDashboard
+    {
+        public StudentDashboard() : base("Student")
+        {
+            InitializeStudentDashboard();
+        }
+
+        private void InitializeStudentDashboard()
+        {
+            // Add menu buttons for Student use cases
+            AddMenuButton("Login / Authenticate", (s, e) => ShowContent("Login / Authenticate"));
+            AddMenuButton("View Class Schedule", (s, e) => ShowContent("View Class Schedule"));
+            AddMenuButton("View Grades", (s, e) => ShowContent("View Grades"));
+            AddMenuButton("View Attendance Record", (s, e) => ShowContent("View Attendance Record"));
+            AddMenuButton("Send and Receive Messages", (s, e) => ShowContent("Send and Receive Messages"));
+            AddMenuButton("Receive Notifications", (s, e) => ShowContent("Receive Notifications"));
+            AddMenuButton("Monitor Child Progress", (s, e) => ShowContent("Monitor Child Progress"));
+
+            // Show default content
+            ShowContent("Student Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+            
+            Label label = new Label();
+            label.Text = contentType;
+            label.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            label.Dock = DockStyle.Top;
+            label.Height = 50;
+            label.Padding = new Padding(20);
+            contentPanel.Controls.Add(label);
+
+            Label descriptionLabel = new Label();
+            descriptionLabel.Text = $"Content for: {contentType}\n\nImplement your business logic here.";
+            descriptionLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descriptionLabel.Dock = DockStyle.Fill;
+            descriptionLabel.Padding = new Padding(20);
+            contentPanel.Controls.Add(descriptionLabel);
+        }
+    }
+}

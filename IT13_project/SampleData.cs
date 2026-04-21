@@ -1,0 +1,113 @@
+using System.Collections.Generic;
+
+namespace IT13_project
+{
+    // Simple static sample data provider used by dashboards for demo/sample rows
+    public static class SampleData
+    {
+        public static List<string[]> GetUsers()
+        {
+            return new List<string[]>
+            {
+                new[] { "ADM-001", "Alice Admin", "Admin", "alice.admin@school.edu", "Active" },
+                new[] { "SUP-001", "Super Sam", "SuperAdmin", "super.sam@school.edu", "Active" },
+                new[] { "STF-001", "Greg Staff", "Staff", "greg.staff@school.edu", "Active" },
+                new[] { "TCH-001", "Mr. John", "Teacher", "john.teacher@school.edu", "Active" },
+                new[] { "PRN-001", "Paula Parent", "Parent", "paula.parent@example.com", "Active" },
+                new[] { "STU-001", "Sally Student", "Student", "sally.student@school.edu", "Active" }
+            };
+        }
+
+        public static List<string[]> GetMessagesFor(string role)
+        {
+            return new List<string[]>
+            {
+                new[] { "System", "System Maintenance", "2024-01-20", "Scheduled maintenance tonight at 11PM" },
+                new[] { "Teacher", "Assignment Reminder", "2024-01-19", "Submit assignments by Friday" },
+                new[] { "Admin", "Meeting", "2024-01-18", "Staff meeting next week" }
+            };
+        }
+
+        public static List<string[]> GetGradesSample()
+        {
+            return new List<string[]>
+            {
+                new[] { "Sally De Vera", "Mathematics", "85", "90", "87.5", "B+" },
+                new[] { "Tom Parker", "English", "88", "92", "90", "A-" },
+                new[] { "Lina Mahlek", "Science", "82", "85", "83.5", "B" }
+            };
+        }
+
+        public static List<string[]> GetAttendanceSample()
+        {
+            return new List<string[]>
+            {
+                new[] { "2024-01-15", "Present", "08:00 AM", "03:00 PM" },
+                new[] { "2024-01-16", "Present", "08:05 AM", "03:00 PM" },
+                new[] { "2024-01-17", "Late", "08:20 AM", "03:00 PM" },
+                new[] { "2024-01-18", "Present", "08:00 AM", "03:00 PM" },
+                new[] { "2024-01-19", "Absent", "-", "-" }
+            };
+        }
+
+        public static List<string[]> GetGradeSubmissions()
+        {
+            return new List<string[]>
+            {
+                new[] { "Sally Student", "Mathematics", "Midterm", "85", "Pending Review" },
+                new[] { "Tom Scholar", "English", "Quiz 1", "78", "Approved" },
+                new[] { "Lina Learner", "Science", "Project", "92", "Pending Review" }
+            };
+        }
+
+        // Sample data for SuperAdmin dashboard
+        public static List<string[]> GetPerformanceMetrics()
+        {
+            return new List<string[]>
+            {
+                new[] { "CPU Usage", "12%" },
+                new[] { "Memory Usage", "45%" },
+                new[] { "Active Sessions", "128" },
+                new[] { "Requests / min", "540" },
+                new[] { "Error Rate", "0.5%" },
+                new[] { "Avg Response Time", "120 ms" }
+            };
+        }
+
+        public static List<string[]> GetUserAnalytics()
+        {
+            return new List<string[]>
+            {
+                new[] { "Total Users", "1,024" },
+                new[] { "Active Today", "512" },
+                new[] { "New Signups (7d)", "23" },
+                new[] { "Admins", "12" },
+                new[] { "Teachers", "120" },
+                new[] { "Students", "760" }
+            };
+        }
+
+        public static List<string[]> GetGradeAnalytics()
+        {
+            return new List<string[]>
+            {
+                new[] { "Average Grade", "87.3" },
+                new[] { "Top Subject", "Mathematics (avg 91)" },
+                new[] { "Failing Rate", "4%" },
+                new[] { "Honors Count", "58" }
+            };
+        }
+
+        public static List<string[]> GetAttendanceTrends()
+        {
+            return new List<string[]>
+            {
+                new[] { "2024-01-15", "95%" },
+                new[] { "2024-01-16", "94%" },
+                new[] { "2024-01-17", "92%" },
+                new[] { "2024-01-18", "95%" },
+                new[] { "2024-01-19", "89%" }
+            };
+        }
+    }
+}

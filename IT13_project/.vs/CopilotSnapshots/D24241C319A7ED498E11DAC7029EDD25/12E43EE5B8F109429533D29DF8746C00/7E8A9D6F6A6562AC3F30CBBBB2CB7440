@@ -1,0 +1,50 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class TeacherDashboard : BaseDashboard
+    {
+        public TeacherDashboard() : base("Teacher")
+        {
+            InitializeTeacherDashboard();
+        }
+
+        private void InitializeTeacherDashboard()
+        {
+            // Add menu buttons for Teacher use cases from the diagram
+            AddMenuButton("Login / Authenticate", (s, e) => ShowContent("Login / Authenticate"));
+            AddMenuButton("View Class Schedule", (s, e) => ShowContent("View Class Schedule"));
+            AddMenuButton("Track Attendance", (s, e) => ShowContent("Track Attendance"));
+            AddMenuButton("Manage Grades & Assessments", (s, e) => ShowContent("Manage Grades & Assessments"));
+            AddMenuButton("View Grades", (s, e) => ShowContent("View Grades"));
+            AddMenuButton("Send and Receive Messages", (s, e) => ShowContent("Send and Receive Messages"));
+            AddMenuButton("Generate Reports", (s, e) => ShowContent("Generate Reports"));
+            AddMenuButton("View Analytics Dashboard", (s, e) => ShowContent("View Analytics Dashboard"));
+
+            // Show default content
+            ShowContent("Teacher Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+            
+            Label label = new Label();
+            label.Text = contentType;
+            label.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            label.Dock = DockStyle.Top;
+            label.Height = 50;
+            label.Padding = new Padding(20);
+            contentPanel.Controls.Add(label);
+
+            Label descriptionLabel = new Label();
+            descriptionLabel.Text = $"Content for: {contentType}\n\nImplement your business logic here.";
+            descriptionLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descriptionLabel.Dock = DockStyle.Fill;
+            descriptionLabel.Padding = new Padding(20);
+            contentPanel.Controls.Add(descriptionLabel);
+        }
+    }
+}

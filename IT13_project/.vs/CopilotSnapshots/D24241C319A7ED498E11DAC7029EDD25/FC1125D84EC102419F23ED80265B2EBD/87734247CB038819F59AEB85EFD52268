@@ -1,0 +1,210 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class ParentDashboard : BaseDashboard
+    {
+        public ParentDashboard() : base("Parent")
+        {
+            InitializeParentDashboard();
+        }
+
+        private void InitializeParentDashboard()
+        {
+            // Parent use cases
+            AddMenuButton("📊 View Attendance Record", (s, e) => ShowContent("View Attendance Record"));
+            AddMenuButton("💬 Send and Receive Messages", (s, e) => ShowContent("Send and Receive Messages"));
+            AddMenuButton("⭐ View Grades", (s, e) => ShowContent("View Grades"));
+            AddMenuButton("🔔 Receive Notifications", (s, e) => ShowContent("Receive Notifications"));
+
+            // Show default content
+            ShowContent("Welcome to Parent Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+
+            // Create a modern card-based layout
+            Panel mainPanel = new Panel();
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.BackColor = Color.FromArgb(240, 240, 240);
+            mainPanel.AutoScroll = true;
+            mainPanel.Padding = new Padding(20);
+
+            // Title Section
+            Panel titlePanel = new Panel();
+            titlePanel.Height = 80;
+            titlePanel.Dock = DockStyle.Top;
+            titlePanel.BackColor = Color.Transparent;
+
+            Label titleLabel = new Label();
+            titleLabel.Text = "📋 " + contentType;
+            titleLabel.Font = new Font("Microsoft Sans Serif", 24, FontStyle.Bold);
+            titleLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            titleLabel.AutoSize = true;
+            titleLabel.Location = new Point(0, 10);
+            titlePanel.Controls.Add(titleLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = GetDescription(contentType);
+            descLabel.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Regular);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 50);
+            descLabel.MaximumSize = new Size(600, 50);
+            titlePanel.Controls.Add(descLabel);
+
+            mainPanel.Controls.Add(titlePanel);
+
+            // Content Cards
+            Panel cardsPanel = new Panel();
+            cardsPanel.Dock = DockStyle.Top;
+            cardsPanel.BackColor = Color.Transparent;
+            cardsPanel.AutoSize = true;
+            cardsPanel.Padding = new Padding(0, 20, 0, 0);
+
+            switch (contentType)
+            {
+                case "View Attendance Record":
+                    AddViewAttendanceCards(cardsPanel);
+                    break;
+                case "Send and Receive Messages":
+                    AddMessagingCards(cardsPanel);
+                    break;
+                case "View Grades":
+                    AddViewGradesCards(cardsPanel);
+                    break;
+                case "Receive Notifications":
+                    AddNotificationsCards(cardsPanel);
+                    break;
+                default:
+                    AddWelcomeCards(cardsPanel);
+                    break;
+            }
+
+            mainPanel.Controls.Add(cardsPanel);
+            contentPanel.Controls.Add(mainPanel);
+        }
+
+        private string GetDescription(string contentType)
+        {
+            switch (contentType)
+            {
+                case "View Attendance Record":
+                    return "Monitor your child's attendance records.";
+                case "Send and Receive Messages":
+                    return "Communicate with teachers and school.";
+                case "View Grades":
+                    return "Check your child's academic performance.";
+                case "Receive Notifications":
+                    return "Receive important school notifications.";
+                default:
+                    return "Welcome to your Parent Dashboard.";
+            }
+        }
+
+        private void AddViewAttendanceCards(Panel panel)
+        {
+            string[] items = { "📅 Monthly View", "📊 Semester View", "📈 Attendance %", "🖨️ Print Report", "⏰ Absence Alerts" };
+            AddCardsToPanel(panel, items, Color.FromArgb(244, 67, 54));
+        }
+
+        private void AddMessagingCards(Panel panel)
+        {
+            string[] items = { "👨‍🏫 To Teachers", "🏫 To School", "📥 Inbox", "📤 Sent Items", "📌 Important" };
+            AddCardsToPanel(panel, items, Color.FromArgb(244, 67, 54));
+        }
+
+        private void AddViewGradesCards(Panel panel)
+        {
+            string[] items = { "📊 Current Grades", "📈 Grade Trends", "📚 By Subject", "📄 Progress Report", "🎯 Performance" };
+            AddCardsToPanel(panel, items, Color.FromArgb(244, 67, 54));
+        }
+
+        private void AddNotificationsCards(Panel panel)
+        {
+            string[] items = { "🔔 All Alerts", "📊 Grade Updates", "📅 Important Dates", "📢 Announcements", "⚙️ Preferences" };
+            AddCardsToPanel(panel, items, Color.FromArgb(244, 67, 54));
+        }
+
+        private void AddWelcomeCards(Panel panel)
+        {
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "Welcome to Parent Dashboard";
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            welcomeLabel.ForeColor = Color.FromArgb(33, 33, 33);
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Location = new Point(0, 0);
+            panel.Controls.Add(welcomeLabel);
+
+            Label descLabel = new Label();
+            descLabel.Text = "Monitor your child's progress, stay connected with teachers, and receive important school updates.";
+            descLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            descLabel.AutoSize = true;
+            descLabel.Location = new Point(0, 40);
+            descLabel.MaximumSize = new Size(800, 100);
+            panel.Controls.Add(descLabel);
+
+            panel.Height = 150;
+        }
+
+        private void AddCardsToPanel(Panel panel, string[] items, Color hoverColor)
+        {
+            int xPos = 0;
+            foreach (string item in items)
+            {
+                Panel card = CreateCard(item, 180, 150, hoverColor);
+                card.Location = new Point(xPos, 0);
+                panel.Controls.Add(card);
+                xPos += 200;
+            }
+            panel.Height = 180;
+        }
+
+        private Panel CreateCard(string title, int width, int height, Color hoverColor)
+        {
+            Panel card = new Panel();
+            card.Width = width;
+            card.Height = height;
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.None;
+            card.Padding = new Padding(15);
+            card.Cursor = Cursors.Hand;
+
+            // Add border effect
+            card.Paint += (s, e) =>
+            {
+                e.Graphics.DrawRectangle(new Pen(Color.FromArgb(220, 220, 220), 1), 0, 0, card.Width - 1, card.Height - 1);
+            };
+
+            Label label = new Label();
+            label.Text = title;
+            label.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Bold);
+            label.ForeColor = Color.FromArgb(33, 33, 33);
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            label.Dock = DockStyle.Fill;
+            label.AutoSize = false;
+            label.WordWrap = true;
+            card.Controls.Add(label);
+
+            // Hover effects
+            card.MouseEnter += (s, e) =>
+            {
+                card.BackColor = hoverColor;
+                label.ForeColor = Color.White;
+            };
+
+            card.MouseLeave += (s, e) =>
+            {
+                card.BackColor = Color.White;
+                label.ForeColor = Color.FromArgb(33, 33, 33);
+            };
+
+            return card;
+        }
+    }
+}

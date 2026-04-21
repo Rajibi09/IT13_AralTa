@@ -1,0 +1,48 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace IT13_project
+{
+    public class StaffDashboard : BaseDashboard
+    {
+        public StaffDashboard() : base("Staff")
+        {
+            InitializeStaffDashboard();
+        }
+
+        private void InitializeStaffDashboard()
+        {
+            // Add menu buttons for Staff use cases
+            AddMenuButton("Login / Authenticate", (s, e) => ShowContent("Login / Authenticate"));
+            AddMenuButton("View Attendance Record", (s, e) => ShowContent("View Attendance Record"));
+            AddMenuButton("View Class Schedule", (s, e) => ShowContent("View Class Schedule"));
+            AddMenuButton("Send and Receive Messages", (s, e) => ShowContent("Send and Receive Messages"));
+            AddMenuButton("View Analytics Dashboard", (s, e) => ShowContent("View Analytics Dashboard"));
+            AddMenuButton("Approve / Review Grades", (s, e) => ShowContent("Approve / Review Grades"));
+
+            // Show default content
+            ShowContent("Staff Dashboard");
+        }
+
+        private void ShowContent(string contentType)
+        {
+            ClearContentPanel();
+            
+            Label label = new Label();
+            label.Text = contentType;
+            label.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Bold);
+            label.Dock = DockStyle.Top;
+            label.Height = 50;
+            label.Padding = new Padding(20);
+            contentPanel.Controls.Add(label);
+
+            Label descriptionLabel = new Label();
+            descriptionLabel.Text = $"Content for: {contentType}\n\nImplement your business logic here.";
+            descriptionLabel.Font = new Font("Microsoft Sans Serif", 12);
+            descriptionLabel.Dock = DockStyle.Fill;
+            descriptionLabel.Padding = new Padding(20);
+            contentPanel.Controls.Add(descriptionLabel);
+        }
+    }
+}
